@@ -1,0 +1,172 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pengaturan warna untuk kode Python
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% agar kolom X bisa vertical centering (middle)
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% kolom X yang center horizontal
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Machine Learning}}
+\author{Mohammad Febryan Khamim}
+\date{} % kosongkan tanggal agar tidak muncul
+
+\begin{document}
+
+\maketitle
+
+\section{Pengantar Machine Learning}
+
+\textbf{\textit{Machine Learning}} adalah teknik yang memungkinkan sistem komputer untuk belajar dan mengambil keputusan pada tugas tertentu tanpa harus diprogram secara eksplisit. 
+
+    \begin{quote}
+        \textbf{Konsep Sederhana} : \textit{Trial and Error} $\rightarrow$ \textbf{\textit{Machine learning}} memungkinkan komputer untuk meningkatkan performanya untuk menuntaskan tugas tertentu secara otomatis. 
+    \end{quote}
+
+\subsection{Karakteristik Utama Machine Learning}
+
+\begin{itemize}
+    \item \textbf{Belajar dari data} : Model menemukan pola tersembunyi
+    \item \textbf{Perbaikan otomatis} : Kinerja meningkat seiring pertambahan data
+    \item \textbf{Generalisasi} : Tidak mengenali pola dalam data tertentu saja
+\end{itemize}
+
+\subsection{Kapan Menggunakan Machine Learning?}
+    \begin{itemize}
+        \item Ketika tugas atau permasalahan mengandung pola tertentu yang terlalu kompleks untuk diselesaikan dengan \textit{rules}
+        \item Terdapat data yang tak diketahui hubungan antarfiturnya
+        \item Permasalahan mengandung probabilitas dan ketidakpastian
+        \item Tugas memerlukan adaptasi atau pengembangan seiring pertambahan waktu. 
+    \end{itemize}
+
+\subsection{Jenis-Jenis Machine Learning}
+    Terdapat beberapa jenis Machine Learning, di antaranya sebagai berikut. 
+    \begin{itemize}
+        \item \textbf{Unsupervised Learning} : Data tak berlabel
+        \item \textbf{Supervised Learning} : Data berlabel
+        \item \textbf{Reinforcement Learning} : Mempelajari data dengan \textit{trial n error} untuk optimalkan \textit{reward}
+    \end{itemize}
+
+\subsection{Proses Machine Learning}
+
+$\text{Input data} \rightarrow \text{Algoritma ML} \rightarrow \text{Pelatihan Model} \rightarrow \text{Feedback loop} \rightarrow \text{Proses iterasi} \rightarrow \text{Evaluasi dan generalisasi}$
+
+\section{Supervised Learning}
+
+Dalam \textit{supervised learning}, kita melatih model menggunakan data yang telah memiliki kelas atau label. 
+Setelah proses \textit{training}, model diuji dengan \textit{data tes} untuk mengetahui seberapa baik performa prediksi yang dihasilkan.
+
+\subsection{Metrik Evaluasi dan Robustness}
+\begin{itemize}
+    \item \textbf{Robustness}: Untuk mengukur seberapa \textit{robust} sebuah model, dapat digunakan \textit{Mean Square Error} (MSE).
+    \item \textbf{Tipe Tugas}:
+    \begin{itemize}
+        \item \textbf{Klasifikasi}: Memprediksi label atau kategori data.
+        \item \textbf{Regresi}: Memprediksi nilai kontinyu atau jumlah, contohnya prediksi harga rumah berdasarkan fitur-fitur tertentu.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Pembagian Data}
+Terdapat 3 jenis data utama dalam menyelesaikan tugas \textit{Machine Learning}:
+\begin{enumerate}
+    \item \textbf{Training Data}: Digunakan untuk melatih parameter model.
+    \item \textbf{Validation Data}: Digunakan untuk menentukan \textit{hyperparameter} yang perlu disesuaikan (\textit{adjusted}) serta memilih model terbaik.
+    \item \textbf{Test Data}: Digunakan untuk mengevaluasi performa akhir dan menentukan metrik evaluasi.
+\end{enumerate}
+
+\section{Metrik Evaluasi Klasifikasi}
+
+Evaluasi performa klasifikasi menggunakan beberapa metrik utama: Akurasi, \textit{Recall}, \textit{Precision}, dan \textit{F1-Score}.
+
+\begin{itemize}
+    \item \textbf{Akurasi}: Jumlah total jawaban benar dibagi dengan banyaknya jumlah prediksi. Metrik ini baik digunakan pada data yang seimbang (\textit{balanced}), tetapi kurang baik untuk \textit{imbalanced data}.
+    \item \textbf{Recall}: Menunjukkan kemampuan model menemukan semua kasus relevan pada data.
+    \[ \text{Recall} = \frac{TP}{TP + FN} \]
+    \item \textbf{Precision}: Kemampuan model klasifikasi untuk mengidentifikasi titik data yang relevan secara tepat.
+    \[ \text{Precision} = \frac{TP}{TP + FP} \]
+    \item \textbf{F1-Score}: Metrik campuran optimal (\textit{optimal blend}) antara \textit{precision} dan \textit{recall}.
+    \[ \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \]
+\end{itemize}
+
+\subsection{Confusion Matrix}
+Tabel berikut merepresentasikan \textit{Confusion Matrix} untuk evaluasi prediksi:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & \textbf{Pred. Positif} & \textbf{Pred. Negatif} \\ \midrule
+\textbf{Cond. Positif} & TP (True Positive) & FN (False Negative) \\
+\textbf{Cond. Negatif} & FP (False Positive) & TN (True Negative) \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\section{Tugas-Tugas pada Machine Learning}
+
+\subsection{Supervised Learning}
+\begin{enumerate}
+    \item \textbf{Klasifikasi}: Decision Tree, SVM, Random Forest.
+    \item \textbf{Regresi}: Linear Regression, Logistic Regression.
+    \item \textbf{Time-series}: LSTM, ARIMA.
+\end{enumerate}
+
+\subsection{Unsupervised Learning}
+\begin{enumerate}
+    \item \textbf{Klasterisasi}: K-means, Hierarchical, Gaussian Mixture.
+    \item \textbf{Reduksi Dimensi}: PCA, t-SNE, Autoencoder.
+    \item \textbf{Association Rule}: Apriori.
+    \item \textbf{Anomaly Detection}: GMM.
+\end{enumerate}
+
+\section{Konsep Lanjutan Machine Learning}
+
+\subsection{Bias-Variance Tradeoff}
+Ketidakseimbangan antara bias dan varians menentukan kemampuan generalisasi model:
+\begin{itemize}
+    \item \textbf{Underfitting}: Terjadi saat model terlalu sederhana (\textit{High Bias}).
+    \item \textbf{Overfitting}: Terjadi saat model terlalu kompleks dan menghafal \textit{noise} pada data (\textit{High Variance}).
+\end{itemize}
+
+\subsection{Teknik Regularisasi}
+Digunakan untuk mencegah \textit{overfitting} dengan menambahkan penalti pada fungsi \textit{loss}:
+\begin{itemize}
+    \item \textbf{Lasso (L1)}: $Loss + \lambda \sum |w|$ (Dapat melakukan seleksi fitur).
+    \item \textbf{Ridge (L2)}: $Loss + \lambda \sum w^2$ (Mengecilkan bobot secara merata).
+\end{itemize}
+
+\subsection{Cross-Validation}
+Teknik untuk mengevaluasi performa model dengan membagi data menjadi $k$ lipatan (\textit{k-fold}). Model dilatih $k$ kali, menggunakan lipatan yang berbeda sebagai data validasi setiap kalinya untuk memastikan hasil evaluasi yang lebih objektif.
+
+\end{document} 

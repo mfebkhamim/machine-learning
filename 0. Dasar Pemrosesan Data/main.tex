@@ -1,0 +1,592 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pengaturan warna untuk kode Python
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% agar kolom X bisa vertical centering (middle)
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% kolom X yang center horizontal
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Dasar Pemrosesan Data}}
+\author{Mohammad Febryan Khamim}
+\date{} % kosongkan tanggal agar tidak muncul
+
+\begin{document}
+
+\maketitle
+
+\textit{Pre-processing} data merupakan langkah awal yang sangat penting dalam proses analisis data dan \textit{data science}. 
+
+
+\section{Pengenalan Data}
+
+\subsection{Tipe-Tipe Data}
+Terdapat beberapa tipe-tipe data berdasarkan beberapa kriteria tertentu sebagai berikut. 
+\begin{enumerate}
+    \item \textbf{Berdasarkan Statistika}
+    
+    Berdasakan statistika, terdapat dua jenis data yaitu Kategorikal dan Numerikal. 
+
+    \begin{itemize}
+        \item \textbf{Numerik}. Tipe data berupa angka yang dapat dilakukan operasi matematika. Jenis data Numerikal terdapat 2, yaitu interval dan rasio. 
+        \textbf{Interval} adalah data yang tak punya nol sejati, contohnya ada pada suhu dan tahun. 
+        Sementara itu, \textbf{rasio} adalah jenis data numerikal yang punya nilai nol sejati, contohnya adalah umur dan berat. 
+        \item \textbf{Kategorikal}. Jenis data ini berupa kategori atau label. 
+        Terdapat dua jenis dalam data kategorikal, yaitu \textbf{ordinal} yang memiliki hubungan urutan atau tingkatan, misalkan \textit{rating}. Sementara itu, terdapat pula tipe \textbf{nominal} yang tidak memiliki urutan, seperti jenis kelamin, warna. 
+    \end{itemize}
+
+    \item \textbf{Berdasarkan Struktur}
+
+    Berdasarkan struktur data, terdapat beberapa jenis data, yaitu \textit{structured}, \textit{semi-structured}, dan \textit{unstructured} data. 
+
+    \begin{itemize}
+        \item \textbf{Structured}. Merupakan data yang sudah rapi dalam bentuk baris dan kolom. 
+        \item \textbf{Semi-structured}. Merupakan data yang tak memiliki tabel, tetapi mempunyai pola atau label. 
+        \item \textbf{Unstructured}. Data yang tak memiliki format tetap. 
+    \end{itemize}
+\end{enumerate}
+
+\section{Handling Missing Values}
+Data yang hilang atau \textit{missing values} adalah suatu kondisi ketika beberapa entri data yang kosong, bernilai NaN, None, atau Special String seperti "\textit{unknown}". \\
+\textbf{Kenapa harus ditangani?} Karena \textit{missing values} dapat mengakibatkan beberapa hal negatif, di antaranya mengurangi akurasi, bias, dan merusak algoritma. 
+
+\newpage
+
+Terdapat beberapa jenis \textit{missing values}, di antaranya sebagai berikut. 
+\begin{itemize}
+        \item \textbf{MCAR (Missing Completely at Random)} \\
+    Nilai hilang terjadi secara acak dan tidak dipengaruhi oleh nilai variabel lain maupun nilai variabel itu sendiri. Kehilangan data tidak memiliki pola tertentu.
+
+    \item \textbf{MAR (Missing at Random)} \\
+    Nilai hilang tidak bergantung pada nilai yang hilang itu sendiri, tetapi bergantung pada variabel lain. Ada pola tertentu yang dapat dijelaskan dengan variabel lain dalam data.
+
+    \item \textbf{MNAR (Missing Not at Random)} \\
+    Nilai hilang bergantung pada nilai yang hilang itu sendiri. Ketidakhadiran data memiliki alasan khusus, misalnya responden sengaja tidak menjawab karena nilai terlalu sensitif atau ekstrem.
+\end{itemize}
+
+Untuk menangani nilai atau data yang hilang, terdapat beberapa teknik yang dapat digunakan, di antaranya sebagai berikut. 
+
+\begin{enumerate}
+\item \textbf{Hapus baris dengan \textit{missing values}} $\rightarrow$ cocok untuk MCAR.
+    \begin{itemize}
+        \item[$\oplus$] Simple, cepat, praktis.
+        \item[$\ominus$] Kehilangan data \& bias.
+    \end{itemize}
+
+    \item \textbf{Mengisi dengan \textit{mean, median, atau modus}}.
+    \begin{itemize}
+        \item[$\oplus$] Mudah, cepat, cocok untuk data numerik.
+        \item[$\ominus$] Mengubah distribusi data, merusak varians.
+    \end{itemize}
+    
+    \textit{Catatan: masing-masing mean, median, modus punya (+/-)}
+    \begin{itemize}
+        \item \textbf{Mean}: 
+        \begin{itemize}
+            \item[$\oplus$] Mempertahankan mean.
+            \item[$\ominus$] Merusak varians, korelasi antar variabel berubah, data menjadi terlalu rata.
+        \end{itemize}
+        \item \textbf{Median}:
+        \begin{itemize}
+            \item[$\oplus$] Lebih robust terhadap \textit{outlier}, tak terpengaruh ekstrem.
+            \item[$\ominus$] Mengurangi variabilitas, bersifat kasar.
+        \end{itemize}
+        \item \textbf{Modus}:
+        \begin{itemize}
+            \item[$\oplus$] Simpel.
+            \item[$\ominus$] Membuat dominan makin dominan.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{\textit{Forward and backward fill}} (Cocok untuk data \textit{time-series}).
+    \begin{itemize}
+        \item[$\oplus$] Menjaga kontinuitas waktu.
+        \item[$\ominus$] Tak cocok untuk perubahan drastis.
+    \end{itemize}
+
+    \item \textbf{Teknik Interpolasi}.
+    \begin{itemize}
+        \item[$\oplus$] Menangkap tren/pola, mempertahankan hubungan antar data.
+        \item[$\ominus$] Mengasumsikan pola tertentu (\textit{linear, kuadratik}), dan dapat menjadi kompleks.
+    \end{itemize}
+
+    \item \textbf{Imputasi Regresi}.
+    \begin{itemize}
+        \item[$\oplus$] Lebih akurat dari \textit{mean/median}, mempertahankan hubungan antar variabel.
+        \item[$\ominus$] Cenderung \textit{overfitting}, mengurangi varians.
+    \end{itemize}
+\end{enumerate}
+
+\section{Statistika Deskriptif}
+
+\textbf{Statistika Deskriptif} adalah suatu teknik statistika untuk mengumpulkan, mengklasifikasikan, meringkas, dan menyajikan data agar mampu menggambarkan karakteristik data. 
+
+\begin{enumerate}
+    \item \textbf{Distribusi Frekuensi}
+
+    Suatu cara untuk menunjukkan frekuensi atau banyak objek masing-masing kelas dan direpresentasikan dalam grafik atau tabel. 
+
+    \item \textbf{Tendensi Sentral}
+
+    Suatu teknik untuk merangkum dan mendeskripsikan kelompok variabel lewat nilai rata-rata dari kumpulan data. 
+    Tujuannya adakah untuk mengetahui kecenderungan letak pusat data. 
+
+\vspace{0.25cm}
+    
+    \begin{tabular}{@{}l l}
+        \textbf{Distribusi simetris} &: $\text{Mean} \approx \text{Median} \approx \text{Modus}$ \\
+        \textbf{Miring kanan} &: $\text{Mean} > \text{Median} > \text{Modus}$ \\ 
+        \textbf{Miring kiri} &: $\text{Modus} > \text{Median} > \text{Mean}$
+    \end{tabular}
+
+\vspace{0.25cm}
+
+    \textbf{Catatan} : Jika mean jauh dari median, maka kemungkinan terdapat \textit{outlier} dalam data. 
+
+    \item \textbf{Variabilitas Data}
+
+    Variabilitas berfungsi untuk dapat menganalisis persebaran distribusi dalam suatu kumpulan data. 
+
+    \begin{itemize}
+        \item \textbf{Range} : Jarak antara nilai terbesar dan terkecil
+        \item \textbf{Standar Deviasi} : Tingkat ketersebaran data, seberapa dekat data dengan mean
+
+        $ \sigma = \sigma ^\frac{1}{2}$
+        
+        \item \textbf{Varians} : Tingkat penyebaran data
+
+        $\sigma = \frac{\sum (x-\mu)^2}{n}$
+    \end{itemize}
+    
+\end{enumerate}
+
+\textbf{Contoh Implementasi pada Python}
+
+    \begin{lstlisting}[language=Python]
+# Import libraries
+import pandas as pd
+
+df = pd.read_csv(r'datacontoh.csv')
+df.head()
+
+# Menentukan Mean Median dan Modus
+
+mean_data = df['sepal_length'].mean()
+median_data = df['sepal_length'].median()
+modus_data = df['sepal_length'].mode()[0]
+
+# Mencetak hasil
+print(f'Mean: {mean_data}')
+print(f'Median: {median_data}')
+print(f'Modus: {modus_data}')
+
+# Menentukan variabilitas data
+
+# Jangkauan data pada kolom sepal_length
+range_data = df['sepal_length'].max() - df['sepal_length'].min()
+
+# Standard Deviasi pada kolom sepal_length
+std_dev_data = df['sepal_length'].std()
+
+# Variansi pada kolom sepal_length
+variance_data = df['sepal_length'].var()
+
+# Mencetak hasil
+print(f'Jangkauan: {range_data}')
+print(f'Standard Deviasi: {std_dev_data}')
+print(f'Variansi: {variance_data}')
+    \end{lstlisting}
+
+\section{Visualisasi Data}
+Visualisasi data adalah sebuah proses merubah data mentah ke dalam bentuk visual, seperti grafik, diagram, peta, atau plot. 
+\textbf{Tujuannya} adalah untuk memahami pola, tren, hubungan, atau \textit{outlier}. 
+
+\vspace{0.35cm}
+
+\textbf{Library yang digunakan}
+\begin{itemize}
+    \item Matplotlib : Membuat grafik, line plot, \textit{bar chart}, \textit{scatter plot}, histogram
+    \item Seaborn : Heatmap, pairplot, violinplot
+\end{itemize}
+
+\vspace{0.35cm}
+
+\textbf{Scatter Plot}
+\begin{itemize}
+    \item Mengamati hubungan antara 2 variabel
+    \item Mengidentifikasi korelasi
+    \item Menemukan \textit{outlier}
+\end{itemize}
+
+\vspace{0.35cm}
+
+\textbf{Heatmap} : Visualisasi data berbentuk peta warna yang merepresentasikan nilai dalam sebuah tabel atau matriks
+\begin{itemize}
+    \item Menampilkan hubungan antarvariabel dalam matriks
+    \item Analisis korelasi antarvariabel
+    \item Memvisualisasikan data berdimensi banyak
+\end{itemize}
+
+\vspace{0.35cm}
+
+\textbf{Konsep heatmap Correlation}
+
+\vspace{0.15cm}
+
+\textbf{Correlation matrix} adalah tabel yang berisi koefisien korelasi antar setiap pasangan variabel. 
+
+\begin{equation}
+    r_{XY} = \frac{\sum (x_i - \bar{x}) (y_i - \bar{y})}{\sqrt{\sum(x_i - \bar{x})^2} \sqrt{\sum(y_i - \bar{y})^2}}
+\end{equation}
+
+Untuk membentuk Heatmap Correlation, caranya adalah dengan mengubah rumus korelasi tersebut ke pemetaan warna $f:[-1,1] \rightarrow \text{warna}$. 
+
+\vspace{0.25cm}
+
+\textbf{Heatmap Correlation} menggambarkan hubungan antarvariabel. 
+\begin{itemize}
+    \item 1 : Hubungan / korelasi yang kuat $\rightarrow$ Warna Gelap
+    \item 0 : Tidak memiliki hubungan $\rightarrow$ Warna Netral
+    \item -1 : Hubungan / korelasi berkebalikan yang kuat $\rightarrow$ Warna Cerah
+\end{itemize}
+
+\textbf{Contoh Implementasi pada Python}
+
+    \begin{lstlisting}[language=Python]
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Membaca Data
+df = pd.read_csv(datavisualisasi.csv)
+df.head()
+
+# Scatter Plot
+plt.scatter(df['day'], df['tip'], c=df['size'], 
+            s=df['total_bill'])
+
+# Menambahkan judul pada plot
+plt.title('Scatter Plot of Day vs Tip')
+
+# Mengatur label sumbu x dan y
+plt.xlabel('Day')
+plt.ylabel('Tip Amount')
+
+plt.colorbar()
+
+plt.show()
+
+# Line Chart
+
+# Scatter Plot
+plt.plot(df['tip'])
+plt.plot(df['size'])
+
+# Kalo mau diubah menjadi bar, tinggal ubah plot menjadi bar
+# Kalo mau diubah menjadi histogram, tinggal ubah plot menjadi hist
+
+# Menambahkan judul pada plot
+plt.title('Line Chart of Tip and Size')
+
+# Mengatur label sumbu x dan y
+plt.xlabel('Day')
+plt.ylabel('Tip')
+
+plt.show()
+
+# Contoh menggunakan Seaborn
+import seaborn as sns
+
+sns.barplot(x='day',y='tip', data=df, 
+            hue='sex')
+
+plt.show()
+
+# Histoplot pada Seaborn
+sns.histplot(x='total_bill', data=df, kde=True, hue='sex')
+
+plt.show()
+
+# Heatmap correlation matrix
+co_mtx = df.corr(numeric_only=True)
+
+# Mencetak correlation matrix
+print(co_mtx)
+
+# Plot correlation matrix menggunakan heatmap
+sns.heatmap(co_mtx, annot=True, cmap="YlGnBu")
+plt.title('Heatmap of Correlation Matrix')
+
+# cmap bisa diganti sesuai keinginan, misal 'coolwarm', 'viridis', dll
+plt.show()
+    \end{lstlisting}
+
+\section{Outlier Detection}
+\textit{\textbf{Outlier}} adalah sebuah nilai dalam data yang sifatnya anomali karena sangat terpisah / jauh dari titik lain yang diobservasi dalam data. 
+\textit{Outlier} dapat muncul dikarenakan adanya kesalahan pencatatan, input, variasi alami, atau fenomena langka. 
+Data yang dideteksi sebagai \textit{outlier} memiliki kecenderungan untuk merusak mean, menurunkan performa model \textit{machine learning}, menyebabkan kesalahan interpretasi. 
+Akan tetapi, tidak semua \textit{outlier} harus dibuang karena terkadang \textit{outlier} tersebut \textbf{penting}, misal untuk \textit{fraud detection}. 
+
+\vspace{0.25cm}
+
+Terdapat beberapa jenis \textit{outlier}, di antaranya adalah sebagai berikut. 
+
+\begin{itemize}
+    \item \textbf{Global Outliers} : Nilai jauh dari data lainnya
+    \item \textbf{Contextual Outliers} : Nilai yang menyimpang dan memiliki makna tertentu
+    \item \textbf{Collective Outliers} : Sekumpulan data yang menyimpang bersama
+\end{itemize}
+
+\vspace{0.45cm}
+
+\textbf{Deteksi Outliers}
+
+\vspace{0.25cm}
+
+\textit{Outlier} dalam data harus dideteksi karena penting untuk mengetahui makna keberadaan \textit{outlier}, meningkatkan akurasi, menjaga kualitas data. 
+
+
+\vspace{0.45cm}
+
+\textbf{Metode untuk Deteksi Outliers}
+
+\vspace{0.05cm}
+
+\begin{enumerate}
+    \item \textbf{Visualisasi}
+
+    Melalui visualisasi data, \textit{outlier} dapat diamati sebagai data yang "menyimpang" dan jauh dari data lainnya.
+    Terdapat beberapa hal yang dapat digunakan untuk visualisasi data, di antaranya \textit{box plot}, \textit{scatter plot}, histogram, dan \textit{density plot}. 
+
+    \item \textbf{Z-score / Standar Deviasi}
+
+    Teknik ini menghitung seberapa jauh data dari mean dengan menghitung standar deviasi. 
+    Biasanya data \textit{outlier} digambarkan dalam $|Z| > 3$. 
+    \begin{equation*}
+        Z=\frac{x-\mu}{\sigma}
+    \end{equation*}
+    Cocok digunakan untuk data yang terdistribusi normal. 
+
+    \item \textbf{Metode Interquartile Range (IQR)}
+
+    Deteksi \textit{outlier} dengan melihat sebaran $50\%$ data tengah. 
+    
+    \begin{equation*}
+        \text{IQR} = \text{Q}3 - \text{Q}1
+    \end{equation*}
+    
+    Suatu data dianggap sebagai \textit{outlier} ketika tidak berada pada rentang: 
+
+    \begin{equation*}
+        \text{Batas bawah} : \text{Q}1 - 1,5 \times \text{IQR}
+        \quad | \quad
+        \text{Batas atas} : \text{Q}3 + 1,5 \times \text{IQR}
+    \end{equation*}
+    
+\end{enumerate}
+
+\section{Reduksi Dimensi dengan PCA}
+Reduksi dimensi adalah suatu teknik untuk mengurangi jumlah fitur dalam sebuah data untuk mempertahankan informasi yang paling relevan. 
+Konsepnya adalah dengan mentransformasi fitur lama menjadi fitur baru (\textit{\textbf{Principal Component}}) yang lebih ringkas. 
+
+\vspace{0.25cm}
+
+\textbf{Kenapa PCA Penting?}
+
+\begin{itemize}
+    \item \textbf{Overfitting} apabila terlalu banyak fitur
+    \item \textbf{Waktu Komputasi Lama}
+    \item \textbf{Interpretasi Sulit} ketika memiliki banyak dimensi
+    \item \textbf{Redundansi Data} karena banyak fitur yang menyimpan informasi berulang
+\end{itemize}
+
+\vspace{0.25cm}
+
+\textbf{Langkah-Langkah dalam PCA}
+
+\begin{enumerate}
+    \item \textbf{Normalisasi Data}. Perbedaan skala antarfitur sangat memengaruhi hasil, sehingga perlu dinormalisasi.
+    \item \textbf{Membuat matriks kovarians}. Matriks untuk membantu menentukan bagaimana hubungan antarfitur saling berinteraksi. 
+    \item \textbf{Menentukan Principal Components}. \textit{Eigenvalue} \& \textit{eigenvector} terbesar akan menjadi \textbf{Principal Component} utama. 
+    \item \textbf{Memilih Jumlah Dimensi Optimal}. Explained Variance Ratio digunakan untuk menentukan banyak variansi yang digunakan. 
+    \item \textbf{Transformasi Data ke Dimensi Baru}. Mengubah \textit{dataset} asli menjadi representasi baru. 
+\end{enumerate}
+
+\vspace{0.25cm}
+
+\textbf{Keterbatasan PCA}
+
+\begin{itemize}
+    \item Principal components sulit ditafsirkan maknanya
+    \item Asumsi linear
+    \item Sensitif terhadap skala fitur
+    \item Tidak cocok jika fitur tak linear dan informasi ada pada varians kecil
+\end{itemize}
+
+\section{Transformasi Data}
+
+Transformasi data adalah suatu proses untuk mengonversi dari data mentah ke data yang formatnya lebih sesuai untuk proses analisis. 
+
+\vspace{0.25cm}
+
+\textbf{Mengapa transformasi penting?}
+\begin{itemize}
+    \item Model lebih mudah belajar
+    \item Performa meningkat
+    \item Konvergensi lebih cepat
+    \item Hasil lebih stabil dan akurat
+\end{itemize}
+
+\vspace{0.25cm}
+
+Terdapat beberapa contoh transformasi data, di antaranya sebagai berikut. 
+
+\vspace{0.15cm}
+
+\begin{enumerate}
+    \item \textbf{Normalisasi}
+
+    Normalisasi bertujuan untuk menjaga proporsi nilai dalam suatu fitur. 
+    Normalisasi mengubah nilai menjadi dalam rentang tertentu $[0,1]$.
+    Proses ini biasanya digunakan untuk Neural Network, Visualisasi. 
+
+    \begin{equation*}
+        x' = \frac{x - x_{min}}{x_{max} - x_{min}}
+    \end{equation*}
+
+    \item \textbf{Standardisasi}
+
+    Standardisasi mengubah suatu data agar memiliki $\text{mean} = 0$ dan $\text{std} = 1$. 
+    Transformasi ini biasanya digunakan untuk Linear / Logistic Regression, SVM, PCA, dan k-means. 
+
+    \begin{equation*}
+        z = \frac{x - \mu}{\sigma}
+    \end{equation*}
+    
+    \item \textbf{Scaling}
+    
+    Scaling adalah proses normalisasi + standarisasi. 
+    Tujuannya adalah menyamakan skala antarfitur dan mencegah dominasi fitur bernilai besar. 
+    Scaling ini biasanya dapat digunakan pada Decision Tree, Random Forest, ataupun XGBoost. 
+    
+\end{enumerate}
+
+\section{Encoding}
+
+Encoding adalah proses mengubah data kategorikal (teks atau label) ke dalam bentuk numerik agar dapat dipahami oleh \textit{machine learning} dan \textit{data mining}. 
+
+\vspace{0.25cm}
+
+\textbf{Tujuan Encoding}
+
+\begin{itemize}
+    \item Menghindari kesalahan interpretasi model
+    \item Mengubah data non-numerik $\rightarrow$ numerik
+    \item Meningkatkan akurasi dan stabilitas model
+\end{itemize}
+
+\vspace{0.25cm}
+
+\textbf{Teknik-Teknik Data Encoding untuk Kategorikal}
+
+\begin{enumerate}
+    \item \textbf{Label Encoding}
+
+    Mengubah masing-masing data kategorikal menjadi angka unik yang digunakan pada Decision Tree atau XGBoost. 
+
+    \item \textbf{One-Hot Encoding}
+
+    Mengonversi kategori ke dalam beberapa kolom biner dengan tiap kolom merepresentasikan kategori. 
+    Biasanya digunakan pada linear model, logistic regression, dan Neural Network
+
+    \item \textbf{Ordinal Encoding}
+
+    Seperti label encoding, tetapi mempertahankan urutan yang cocok digunakan pada data dengan urutan. 
+
+    \item \textbf{Target Encoding}
+
+    Mengganti data kategori dengan rata-rata nilai target pada kategori tersebut. 
+
+    \item \textbf{Binary Encoding}
+
+    Mengonversi kategori menjadi representasi biner, kemudian dipisah menjadi beberapa kolom. 
+
+    \item \textbf{Frequency Encoding}
+
+    Mengubah setiap kategori dengan frekuensi kemunculannya di dalam \textit{dataset}. 
+\end{enumerate}
+
+\section{Menangani Imbalanced Data}
+
+\textit{\textbf{Imbalanced Data}} adalah suatu kondisi ketika distribusi data pada tiap kelas tidak seimbang. 
+Suatu kelas memiliki jumlah anggota yang tak seimbang dibandingkan kelas lainnya. 
+
+\vspace{0.4cm}
+
+\textbf{Kenapa harus diatasi?}
+
+\vspace{0.25cm}
+
+Karena \textit{imbalanced data} dapat mengakibatkan model memiliki performa yang buruk akibat adanya bias pada kelas mayoritas. 
+
+\vspace{0.4cm}
+
+\textbf{Cara untuk Mengatasi \textit{Imbalanced Data}}
+
+\begin{enumerate}
+    \item \textbf{Menggunakan metode evaluasi yang sesuai}
+
+    \textbf{Accuracy} kurang baik pada data tak seimbang karena dapat bernilai tinggi dengan hanya memprediksi kelas mayoritas. 
+    Untuk itu, metode yang lebih sesuai menggunakan metrik evaluasi Precision, Recall, dan F1-score. 
+
+    \item \textbf{Resampling} : Upsampling dan Downsampling
+
+    Mengubah jumlah sampel antarkelas supaya distribusi lebih seimbang. 
+    Caranya dengan cara menghapus beberapa data kelas mayoritas atau menambahkan data kelas minoritas secara acak. 
+
+    \item \textbf{BalancedBagging Classifier}
+
+    Mengatasi \textit{imbalanced} data dengan menambahkan mekanisme penyeimbangan selama proses pelatihan. 
+
+    \item \textbf{SMOTE} | Synthetic Minority Oversampling Technique
+
+    SMOTE membuat data sintetis baru untk kelas minoritassehingga meningkatkan keberagaman data dengan menciptakan \textit{instance} buatan. 
+
+    \textbf{Konsep SMOTE} : Mengamati data minoritas $\rightarrow$ memilih tetangga terdekat dengan k-\textit{nearest neighbor} $\rightarrow$ \textit{generate data}. 
+
+    \textbf{Cara Generate} : Hitung selisih vektor ($\Delta = x_{nn} - x_i$ lalu mengambil nilai acak ($\lambda$) dengan $\lambda \in (0,1)$, kemudian membuat data baru ($x_{baru} = x_i + \lambda \Delta$)
+\end{enumerate}
+
+\end{document} 

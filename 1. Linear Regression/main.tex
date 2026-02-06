@@ -1,0 +1,275 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pengaturan warna untuk kode Python
+% --- Konfigurasi Kode Python ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% agar kolom X bisa vertical centering (middle)
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% kolom X yang center horizontal
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Regresi Linear}}
+\author{Mohammad Febryan Khamim}
+\date{} % kosongkan tanggal agar tidak muncul
+
+\begin{document}
+
+\maketitle
+
+\section{Pengantar Regresi Linear}
+\textit{\textbf{Linear Regression}} atau regresi linear adalah algoritma yang berupaya mengoptimasi fungsi linear untuk memprediksi \textit{dataset} baru. 
+Algoritma ini mengasumsikan terdapat hubungan linear antara input dan \textit{output}. 
+Hubungan linearnya direpresentasikan dengan garis lurus. 
+
+\section{Garis / Fungsi Linear Terbaik Linear Regression}
+
+\begin{enumerate}
+    \item \textbf{Tujuan / Objektif Garis Linear:}
+    Meminimalkan jarak antara titik nyata dan hasil prediksi. Garis tersebut membantu untuk memprediksi nilai yang belum ada.
+    \begin{itemize}
+        \item $\theta_1$: merepresentasikan \textit{intercept} (nilai $Y$ saat $x=0$).
+        \item $\theta_2$: merepresentasikan kemiringan (perubahan $Y$ seiring perubahan $X$).
+    \end{itemize}
+
+    \item \textbf{Rumus Garis Terbaik:}
+    \[ y = mx + b \]
+    \begin{itemize}
+        \item $y$: \textit{predicted value}
+        \item $x$: \textit{input}
+        \item $m$: \textit{Gradien}
+        \item $b$: \textit{Intercept}
+    \end{itemize}
+    Garis terbaik berupaya mengoptimasi nilai $m$ dan $b$ agar \textit{predicted} $y$ akan semakin dekat dengan nilai seharusnya.
+
+    \item \textbf{Minimizing Error: Metode Least Square}
+    Idenya adalah meminimalkan \textit{sum of squared differences} antara $x$ dan $y$.
+    \begin{itemize}
+        \item \textit{Residual}: $y_i - \hat{y}_i$
+        \item \textit{Least square method} meminimalkan: $\sum (y_i - \hat{y}_i)^2$
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Keterbatasan Regresi Linear}
+\begin{itemize}
+    \item Mengasumsikan linearitas (tak bekerja baik saat non-linear).
+    \item Sensitif terhadap \textit{outlier}.
+\end{itemize}
+
+\subsection*{Asumsi pada Regresi Linear}
+\begin{enumerate}
+    \item \textbf{Linearitas}
+    \item \textbf{Kemandirian Error:} Kesalahan prediksi satu data tak bergantung pada kesalahan data lain.
+    \item \textbf{Varians Konstan:} Varians error konstan.
+    \item \textbf{Normalitas Error} : Pola kesalahan prediksi mengikuti distribusi normal.
+    \item \textbf{No Multicolinearity} : Tiap variabel tak berkorelasi satu sama lain. 
+    \item \textbf{Tak ada autokorelasi}
+    \item \textbf{Additivity}
+\end{enumerate}
+
+\section{Jenis-jenis Regresi Linear}
+Terdapat beberapa jenis Regresi Liner, yakni sebagai berikut. 
+
+\begin{enumerate}
+    \item \textbf{Simple Linear Regression}
+
+    Simple LR digunakan untuk memprediksi nilai tujuan menggunakan satu fitur input. 
+    \textbf{Persamaan: }
+
+    \begin{equation*}
+        \hat{y} = \theta_0 + \theta_1 x
+    \end{equation*}
+
+    \item \textbf{Multiple Linear Regression}
+
+    Multiple LR melibatkan lebih dari 1 variabel independen dan 1 variabel dependen.
+    \textbf{Persamaan:}
+
+    \begin{equation*}
+        \hat{y} = \theta_0 + \theta_1x_1 + \theta_2x_2 + \dots +\theta_nx_n 
+    \end{equation*}
+\end{enumerate}
+
+\section{Mekanisme Pelatihan Regresi Linear}
+
+Berikut adalah proses iteratif dalam pelatihan regresi linear:
+
+\begin{enumerate}[label=\protect\textcircled{\small\arabic*}]
+    \item \textbf{Menentukan Nilai Acak: Gradien dan Intercept} 
+    
+    Langkah pertama adalah menentukan nilai awal untuk parameter model.
+    \begin{center}
+        \begin{tcolorbox}[hbox]
+            $y = mx + b$
+        \end{tcolorbox}
+    \end{center}
+    Ambil sembarang nilai acak, misalnya: $m = 0,5$ dan $b = 2$.
+
+    \item \textbf{Menghitung Error antara Prediksi \& Nilai Aktual} \\
+    Langkah ini biasanya menggunakan \textit{Mean Squared Error} (MSE) untuk menilai seberapa besar kesalahan prediksi.
+    \begin{center}
+        \begin{tcolorbox}[hbox]
+            $\displaystyle MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i^{pred} - y_i)^2$
+        \end{tcolorbox}
+    \end{center}
+    Dengan MSE, dapat diketahui seberapa akurat garis dalam memprediksi semua titik data.
+
+    \item \textbf{Mencari Kontribusi Setiap Parameter Terhadap Error} \\
+    Gunakan konsep turunan parsial untuk melihat sensitivitas error terhadap perubahan parameter $m$ dan $b$:
+    \[ \rightarrow \text{Gunakan konsep turunan: } \frac{\partial MSE}{\partial m} \text{ dan } \frac{\partial MSE}{\partial b} \]
+    
+    \begin{itemize}
+        \item Turunan parsial menunjukkan seberapa besar $m$ dan $b$ harus diubah untuk meminimalkan MSE.
+        \item Simbol $\oplus$ $\rightarrow$ mengurangi parameter \& $\ominus$ $\rightarrow$ meningkatkan parameter (tergantung pada arah gradien).
+    \end{itemize}
+
+    \item \textbf{Update Parameter} \\
+    Perbarui nilai $m$ dan $b$ menggunakan nilai gradien yang telah dihitung.
+    \begin{center}
+        \begin{tcolorbox}[hbox]
+            $m = m - \alpha \frac{\partial MSE}{\partial m}$
+        \end{tcolorbox}
+        \quad
+        \begin{tcolorbox}[hbox]
+            $b = b - \alpha \frac{\partial MSE}{\partial b}$
+        \end{tcolorbox}
+    \end{center}
+    dengan $\alpha$ adalah \textit{learning rate} yang mengontrol ukuran langkah pembaruan.
+
+    \item \textbf{Iterasi} \\
+    Ulangi langkah 2 hingga 4 sampai mencapai nilai error paling minimum atau konvergen.
+\end{enumerate}
+
+\section{Langkah dalam Python}
+
+\begin{enumerate}
+    \item \textbf{Coba Exploratory Data Analysis (EDA)}
+
+    Ketika melakukan EDA mengecek distribusi fitur target, diperoleh bahwa data terdistribusi normal $\rightarrow$ harga 1 jt -- 1,5 jt jumlah banyak rumah semakin sedikit (menurun jumlahnya)
+
+    \item \textbf{Train Model}
+
+    Pada modul sklearn sudah ada modul regresi linear
+
+    \begin{quote}
+        $from \ sklearn.linear\_model \ import \ LinearRegression$
+    \end{quote}
+
+    \item \textbf{Makna dari Koefisien dari Setiap Fitur}
+
+    Anggap koefisiennya adalah $\beta_1$, maka diperoleh bahwa $\beta_1$ adalah laju perubahan rata-rata $y$ terhadap $x$. 
+
+    \begin{equation*}
+        \beta_1 = \dfrac{\Delta y}{\Delta x}
+    \end{equation*}
+
+    Jika $x$ naik 1 satuan, maka nilai prediksi $y$ berubah sebesar $\beta_1$ satuan dengan asumsi hubungan linear. 
+
+    \begin{quote}
+        \textbf{Ingat konsep gradien} $y = mx+c$, sehingga $\beta_1 = m$ merupakan gradien atau kemiringan.
+    \end{quote}
+\end{enumerate}
+
+
+\section{Program Python}
+
+\begin{lstlisting}[language=Python, caption=Program Linear Regression Python]
+# Import modul atau libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+# Membaca data
+df = pd.read_csv(r"E:\Perkuliahan\Karier\11-Linear-Regression\USA_Housing.csv")
+df
+
+# Menampilkan informasi data
+df.head()
+df.info()
+df.describe()
+
+# Exploratory Data Analysis
+
+# Pairplot
+sns.pairplot(df)
+
+# Heatmap untuk cek korelasi data
+plt.figure(figsize=(10, 8))
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
+plt.tight_layout()
+
+# PELATIHAN DATA
+from sklearn.model_selection import train_test_split
+
+# Pendefinisian X dan y
+X = df[['Avg. Area Income', 'Avg. Area House Age', 'Avg. Area Number of Rooms',
+       'Avg. Area Number of Bedrooms', 'Area Population']]
+y = df['Price']
+
+# Mekanisme pelatihan
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+
+# Training model
+from sklearn.linear_model import LinearRegression
+
+lm = LinearRegression()
+lm.fit(X_train, y_train)
+
+# Mengecek parameter hasil pelatihan
+print('Intercept:', lm.intercept_)
+print('Coefficients:', lm.coef_)
+
+cdf = pd.DataFrame(lm.coef_, X.columns, columns=['Coefficient']) # Untuk cek nama masing-masing kolom dan nilainya
+
+# Mencari seberapa jauh hasil prediksi dengan data sebenarnya
+prediksi = lm.predict(X_test)
+plt.scatter(y_test, prediksi)
+
+# Metrik evaluasi untuk Regresi Linear
+from sklearn import metrics
+print('MAE:', metrics.mean_absolute_error(y_test, prediksi))
+print('MSE:', metrics.mean_squared_error(y_test, prediksi))
+print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, prediksi)))
+\end{lstlisting}
+
+
+\end{document} 
