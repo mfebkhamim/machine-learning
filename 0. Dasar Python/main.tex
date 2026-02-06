@@ -1,0 +1,716 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Pengaturan warna untuk kode Python
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Belajar Python}}
+\author{Mohammad Febryan Khamim}
+\date{} 
+
+
+% Isi Dokumen
+
+\begin{document}
+
+\maketitle
+\vspace{-0.5\baselineskip}
+
+\section{Perbedaan List, Tuple, Set dan Dictionary}
+
+\subsection*{1. List}
+\textbf{List} adalah tipe data yang ditulis berurutan yang berisi lebih dari satu tipe data.
+\begin{itemize}
+    \item \textbf{Contoh:} \lstinline|a = ["teks", 7, 2.5, True]|
+    \item \textbf{Bersifat \textit{mutable}:} Bisa ditambahkan atau dikurangi.
+    \begin{itemize}
+        \item \lstinline|.append()| $\rightarrow$ ditambahkan. Contoh: \lstinline|a.append("satu")|
+        \item \lstinline|del| $\rightarrow$ dihapus. Contoh: \lstinline|del a[2]|
+    \end{itemize}
+\end{itemize}
+
+\subsection*{2. Tuple}
+\textbf{Tuple} mirip seperti list tapi isinya \textbf{\textit{immutable}}, tidak dapat diubah nilainya.
+
+\subsection*{3. Set}
+\textbf{Set} adalah kumpulan item yang bersifat unik dan tak berurutan.
+\begin{itemize}
+    \item \textbf{Contoh:} \lstinline|S = {1, 2, "tuple"}|
+    \item Jika terdapat lebih dari satu data yang sama $\rightarrow$ hanya tersimpan 1.
+    \begin{lstlisting}
+S = {1, 2, 2, 4}
+print(S)  # Output: {1, 2, 4}
+    \end{lstlisting}
+    \item \textbf{Cara menambahkan data:} Harus menggunakan fungsi \lstinline|.add()|.
+    \begin{lstlisting}
+S = {1, 2, 2, 4}
+S.add(0)
+print(S)  # Output: {0, 1, 2, 4}
+    \end{lstlisting}
+\end{itemize}
+
+\subsection*{4. Dictionary}
+\textbf{Dictionary} adalah kumpulan pasangan kunci dan nilai (\textit{key : value}) dan tak berurutan.
+\begin{itemize}
+    \item \textbf{Format:} \lstinline|d = {"key" : "Value"}|
+    \item \textbf{Contoh:}
+    \begin{lstlisting}
+d = {"hewan" : "gajah", "angka" : 1}
+    \end{lstlisting}
+    \item \textbf{Cara mengubah nilai:} 
+    \begin{lstlisting}
+d["hewan"] = "unta"
+    \end{lstlisting}
+\end{itemize}
+
+\newpage
+
+\textbf{Tabel Perbedaan}
+
+Berikut ini adalah tabel perbedaan dari List, Tuple, Set, dan Dictionary.
+
+\begin{tabularx}{\textwidth}{@{} 
+    >{\centering\arraybackslash}m{2.5cm}
+    >{\centering\arraybackslash}m{2.5cm}
+    >{\centering\arraybackslash}m{2cm}
+    >{\centering\arraybackslash}m{2cm}
+    Y
+@{}}
+\toprule
+\textbf{Fitur} & \textbf{List} & \textbf{Tuple} & \textbf{Set} & \textbf{Dictionary} \\ \midrule
+
+\textbf{Simbol} 
+& \texttt{[ ]} 
+& \texttt{( )} 
+& \texttt{\{ \}} 
+& \texttt{\{k:v\}} \\ \addlinespace
+
+\textbf{Sifat} 
+& \textit{Mutable} 
+& \textit{Immutable} 
+& \textit{Mutable} 
+& \textit{Mutable} \\ \addlinespace
+
+\textbf{Urutan} 
+& \textit{Ordered} 
+& \textit{Ordered} 
+& \textit{Unordered} 
+& \textit{Unordered} \\ \addlinespace
+
+\textbf{Duplikasi} 
+& Boleh ada data sama 
+& Boleh ada data sama 
+& \textbf{Tidak Boleh} (Unik) 
+& Key harus unik, Value boleh sama \\ \addlinespace
+
+\textbf{Contoh} 
+& \texttt{[1, 2, 2]} 
+& \texttt{(1, 2, 2)} 
+& \texttt{\{1, 2\}} 
+& \texttt{\{"a": 1\}} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{0.5cm}
+
+% Bagian 2 : 
+
+\section{IF-ELSE Statement}
+Dalam Python, terdapat cara untuk menjelaskan terkait \textit{conditional statement}, yakni menggunakan IF ELSE. 
+Berikut ini adalah penjelasannya. 
+
+\begin{enumerate}
+    \item \textbf{Satu Kondisi}
+    
+    Bagian ini digunakan untuk dapat menjalankan suatu perintah ketika sebuah syarat terpenuhi, berikut ini contohnya. 
+    \begin{lstlisting}[language=Python]
+    nilai = 80
+    if nilai >= 75:
+        print("Selamat, Anda Lulus!")
+    \end{lstlisting}
+
+    \item \textbf{Banyak Kondisi}
+
+    Apabila ingin menjalankan suatu perintah yang memiliki beberapa persyaratan, berikut ini contohnya. 
+    \begin{lstlisting}[language=Python]
+    skor = 85
+    
+    if skor >= 90:
+        print("Predikat: A")
+    elif skor >= 80:
+        print("Predikat: B")
+    elif skor >= 70:
+        print("Predikat: C")
+    else:
+        print("Predikat: D")
+    \end{lstlisting}
+
+    \item \textbf{Operator Perbandingan dan Logika}
+
+    Berikut ini adalah beberapa operator logika yang sering digunakan dalam IF ELSE dalam Python. 
+    Kondisi di dalam \texttt{if} sering kali menggunakan operator berikut:
+    \begin{itemize}
+        \item \textbf{Perbandingan:} $==, \neq, >, <, \geq, \leq$
+        \item \textbf{Logika:} 
+            \begin{itemize}
+                \item \texttt{and} : Benar jika kedua kondisi terpenuhi ($A \land B$).
+                \item \texttt{or} : Benar jika salah satu kondisi terpenuhi ($A \lor B$).
+            \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{Looping dalam Python}
+
+Untuk membuat perulangan atau \textit{looping} pada Python, terdapat beberapa hal utama yang dapat digunakan dalam Python, di antaranya adalah : 
+
+\begin{enumerate}
+    \item \textbf{For Loop}
+
+    \textbf{For Loop} digunakan untuk melakukan iterasi di antara beberapa barisan, seperti \textit{list}, \textit{tuple}, \textit{string}, atau \textit{range}. 
+    Jumlah iterasinya \textbf{sudah diketahui} dari awal. 
+
+    \begin{lstlisting}[language=Python, caption=Contoh For Loop]
+    # Iterasi menggunakan range
+    for i in range(1, 6):
+        print(f"Perulangan ke-{i}")
+    
+    # Iterasi pada list
+    buah = ["apel", "mangga", "pisang"]
+    for item in buah:
+        print(f"Saya suka {item}")
+    \end{lstlisting}
+
+    \item \textbf{While Loop}
+
+    Untuk \textbf{While Loop} digunakan untuk melakukan perulangan selama masih memenuhi kondisi tertentu (atau kondisi tersebut bernilai \textbf{True}).
+
+    \begin{lstlisting}[language=Python, caption=Contoh While Loop]
+count = 0
+while count < 5:
+    print(f"Nilai count: {count}")
+    count += 1  # Increment 
+    \end{lstlisting}
+
+    \item \textbf{Break dan Continue}
+
+    Pernyataan \textbf{kontrol perulangan} (\textit{loop control statements}) mengubah eksekusi dari urutan normalnya. 
+
+    \begin{itemize}
+        \item \textbf{Break}. 
+        Pernyataan \texttt{break} digunakan untuk menghentikan perulangan secara paksa, bahkan jika kondisi \textit{loop} sebenarnya masih bernilai \textit{True}. Setelah \texttt{break} dipanggil, program akan langsung menjalankan baris kode setelah blok perulangan.
+        \begin{lstlisting}[language=Python, caption=Contoh Break]
+    for i in range(1, 10):
+        if i == 5:
+            break  # Loop berhenti total saat i bernilai 5
+        print(i)
+    # Output: 1, 2, 3, 4
+        \end{lstlisting}
+
+        \item \textbf{Continue}. 
+        Pernyataan \texttt{continue} digunakan untuk melompati sisa kode di dalam iterasi saat ini dan langsung berpindah ke iterasi berikutnya. Perulangan tidak berhenti, hanya "loncat" ke pengecekan kondisi berikutnya.
+
+\begin{lstlisting}[language=Python, caption=Contoh Continue]
+    for i in range(1, 6):
+        if i == 3:
+            continue  # Angka 3 akan dilewati
+        print(i)
+    # Output: 1, 2, 4, 5
+\end{lstlisting}
+
+    \item \textbf{Pass}.
+    Pernyataan \texttt{pass} adalah pernyataan \textit{null} (kosong).
+    Perbedaannya dengan komentar adalah Python tidak mengabaikan \texttt{pass}, tetapi secara sintaksis \texttt{pass} digunakan sebagai penampung (\textit{placeholder}) saat kode belum ditulis, tetapi blok tersebut wajib ada secara struktur.
+
+    \begin{lstlisting}[language=Python, caption=Contoh Pass]
+for i in range(5):
+    if i == 2:
+        pass  # Tidak melakukan apa-apa
+    print(f"Angka: {i}")
+    \end{lstlisting}
+    
+    \end{itemize}
+
+    \item \textbf{Nested Loop}
+    Perulangan di dalam perulangan lainnya.
+
+    \begin{lstlisting}[language=Python, caption=Contoh Nested Loop]
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"i={i}, j={j}")
+    \end{lstlisting}
+    
+\end{enumerate}
+
+\newpage
+\setcounter{section}{0}
+
+\begin{center}
+    % Mengatur ukuran teks menjadi sangat besar dan tebal
+    {\Huge \textbf{Library dalam Python}} \\[0.25cm]
+    % Menambahkan sub-judul atau nama jika diperlukan
+    8 Januari 2026
+\end{center}
+
+\section{Library Pandas}
+
+\textbf{Library Pandas} merupakan \textit{open source} yang menyediakan beberapa peralatan untuk kebutuhan analisis, manipulasi, dan pembersihan data. 
+Pandas memiliki format data yang disebut DataFrame untuk membentuknya dalam struktur data 2 dimensi atau tabel. 
+Berikut ini adalah beberapa contoh \textit{syntax} yang umum digunakan dalam Pandas. 
+
+\begin{itemize}
+    \item \textbf{Syntax mengubah \textit{dictionary} jadi tabel}
+
+    \begin{lstlisting}[language=Python, caption=Dictionary jadi Tabel]
+# Membuat data dictionary
+data = {
+    'Nama': ['Anna', 'Bob', 'Charlie', 'David', 'Eva'],
+    'Umur': [18, 19, 17, 18, 19],
+    'Matematika': [85, 90, 78, 92, 88],
+    'Bahasa_Inggris': [88, 85, 92, 89, 94],
+    'IPA': [90, 87, 84, 88, 91]
+}
+
+# Membuat DataFrame dari data
+df = pd.DataFrame(data)
+
+# Menampilkan DataFrame
+print("DataFrame Awal:")
+print(df)
+
+    \end{lstlisting}
+
+    \item \textbf{Membaca dan Menyimpan Data}
+
+    \begin{lstlisting}[language=Python]
+# Membaca Data
+df = pd.read_csv('data.csv')
+df_excel = pd.read_excel('data.xlsx')
+
+# Menyimpan dictionary dalam CSV
+df.to_csv('output.csv', index=False)
+df.to_excel('output.xlsx', index=False)
+\end{lstlisting}
+
+Adanya \textit{syntax} berupa \textbf{index} tersebut menunjukkan apakah indeks (urutan baris) dimasukkan ke dalam \textit{file} yang akan disimpan atau tidak. 
+
+\item \textbf{Melihat Struktur Data}
+
+\begin{lstlisting}[language=Python]
+df.head()        # 5 baris pertama
+df.tail()        # 5 baris terakhir
+df.info()        # informasi kolom & tipe data
+df.describe()    # statistik deskriptif
+df.shape         # jumlah baris dan kolom
+\end{lstlisting}
+
+\newpage
+
+\item \textbf{Seleksi Baris dan Kolom}
+\begin{lstlisting}[language=Python]
+df['Nama']
+df[['Nama', 'Umur']]
+
+df.loc[0]          # berdasarkan index label
+df.iloc[0]         # berdasarkan posisi
+
+df.loc[0, 'Nama']  # sel tertentu
+\end{lstlisting}
+
+\item \textbf{Filtering Data}
+\begin{lstlisting}[language=Python]
+df[df['Umur'] > 20]
+df[df['Kota'] == 'Bandung']
+df[(df['Umur'] > 20) & (df['Kota'] == 'Bandung')]
+\end{lstlisting}
+
+\item \textbf{Mengatasi \textit{Missing Value}}
+
+\begin{lstlisting}[language=Python]
+df.isnull().sum()
+df_drop = df.dropna()
+df_fill = df.fillna(0)
+\end{lstlisting}
+
+\item \textbf{Manipulasi Kolom}
+\begin{lstlisting}[language=Python]
+df['Total'] = df['Nilai1'] + df['Nilai2']
+df.rename(columns={'Nilai1':'Nilai_A'}, inplace=True)
+df.drop(columns=['Nilai2'], inplace=True)
+\end{lstlisting}
+    
+\end{itemize}
+
+\section{Library PyTorch}
+
+PyTorch adalah \textit{framework} Machine Learning (ML) \textit{open-source} yang dikembangkan untuk \textit{deep learning}.
+\textit{Framework} ini sangat populer karena mendukung komputasi berbasis GPU dan dibuat dengan konsep \textit{dynamic computation graph}, di mana grafik komputasi dibentuk secara dinamis saat program dijalankan.
+
+\subsection*{Fitur Utama PyTorch}
+\begin{itemize}
+    \item \textbf{Dynamic Graphs}: Mempermudah eksekusi dan proses \textit{debug}.
+    \item \textbf{Automatic Diff. Engine}: Mempermudah komputasi gradien secara otomatis.
+    \item \textbf{Mendukung CUDA}: Memungkinkan komputasi pada GPU untuk mempercepat proses pelatihan.
+\end{itemize}
+
+\subsection*{Komponen Utama}
+Berikut ini terdapat beberapa komponen yang dapat digunakan pada PyTorch, di antaranya sebagai berikut. 
+
+\begin{enumerate}
+    \item \textbf{Tensor}
+
+    Tensor merupakan struktur data inti di PyTorch yang serupa dengan \textit{array} pada NumPy, tetapi memiliki kemampuan akselerasi pada GPU.
+    Dalam \textit{deep learning}, Tensor digunakan untuk menyimpan data \textit{input}, \textit{output}, dan parameter model.
+    Tensor digunakan untuk mendukung diferensiasi otomatis yang cocok untuk tugas \textit{deep learning}. 
+
+    \begin{lstlisting}[language=Python]
+import torch
+t = torch.tensor([[1, 2, 3, 4],
+                 [5, 6, 7, 8],
+                 [9, 10, 11, 12]])
+
+print("Reshaping")
+print(t.reshape(6, 2))
+
+print("\nResizing")
+print(t.view(2, 6))
+
+print("\nTransposing")
+print(t.transpose(0, 1))
+    \end{lstlisting}
+
+    \item \textbf{Autograd dan Computational Graphs}
+
+    Autograd secara otomatis dapat digunakan untuk menghitung turunan atau gradien dari suatu operasi yang sangat berguna dalam \textit{backpropagation} pada Neural Network. 
+    Sementara itu, Computational Graph merupakan representasi grafis dari operasi matematis yang dilakukan pada tensor. 
+
+    \begin{lstlisting}[language=Python]
+import torch
+import torch.nn as nn
+
+
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super(NeuralNetwork, self).__init__()
+        self.fc1 = nn.Linear(10, 16)
+        self.fc2 = nn.Linear(16, 8)
+        self.fc3 = nn.Linear(8, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = torch.sigmoid(self.fc3(x))
+        return x
+
+
+model = NeuralNetwork()
+print(model)
+    \end{lstlisting}
+    
+    \item \textbf{Loss Function dan Optimizer}
+    \begin{itemize}
+        \item \textbf{Loss Function}: Digunakan untuk menghitung tingkat kesalahan (\textit{error}) antara prediksi model dengan label asli.
+        \item \textbf{Optimizer}: Bertugas memperbarui bobot model berdasarkan perhitungan gradien untuk meminimalkan \textit{loss}.
+    \end{itemize}
+
+    \item \textbf{Proses Pelatihan Model}
+
+    Terdapat empat tahapan utama dalam pelatihan model di PyTorch.
+    \begin{enumerate}
+        \item \textbf{Forward Pass}: Mengalirkan data melalui model untuk mendapatkan prediksi.
+        \item \textbf{Perhitungan Loss}: Mengukur seberapa jauh hasil prediksi dari target.
+        \item \textbf{Backward Pass}: Menghitung gradien \textit{loss} terhadap parameter model.
+        \item \textbf{Pembaruan Parameter}: Menggunakan \textit{optimizer} untuk memperbarui bobot.
+    \end{enumerate}
+
+    \item \textbf{Model Deep Learning pada \textit{pytorch}}
+
+    Beberapa model populer yang didukung antara lain.
+    \begin{itemize}
+        \item \textbf{Convolutional Neural Network (CNN)}: Fokus pada pemrosesan data gambar.
+        \item \textbf{Recurrent Neural Network (RNN)}: Fokus pada data urutan (\textit{sequence}) seperti teks.
+        \item \textbf{Model Generative}: Seperti GAN (\textit{Generative Adversarial Networks}) dan VAE (\textit{Variational Autoencoders}).
+    \end{itemize}
+
+    \item \textbf{Contoh Implementasi Kode}
+
+    Berikut adalah contoh pembuatan Tensor dan operasi dasar di PyTorch.
+
+    \begin{lstlisting}[language=Python, caption=Operasi Dasar Tensor PyTorch]
+import torch
+
+# Membuat tensor dari list
+data = [[1, 2], [3, 4]]
+x_data = torch.tensor(data)
+
+# Membuat tensor acak
+shape = (2, 3,)
+rand_tensor = torch.rand(shape)
+
+# Operasi matematika sederhana
+x = torch.tensor([5.0], requires_grad=True)
+y = x**2
+y.backward() # Menghitung gradien
+
+print(f"Tensor Data: \n {x_data}")
+print(f"Gradien dari x^2 pada x=5: {x.grad}") # Hasilnya 2*x = 10
+    \end{lstlisting}
+
+Berikut adalah contoh kode Python untuk mendefinisikan model, menghitung \textit{loss}, dan melakukan pembaruan bobot (optimasi).
+
+\begin{lstlisting}[language=Python, caption=Neural Network Sederhana dengan PyTorch]
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# 1. Menyiapkan data dummy (Input & Target)
+# Misal: 10 data dengan 5 fitur masing-masing
+input_data = torch.randn(10, 5)
+target = torch.randn(10, 1)
+
+# 2. Mendefinisikan Arsitektur Model
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super(SimpleNet, self).__init__()
+        # Layer input ke hidden (5 fitur ke 10 neuron)
+        self.hidden = nn.Linear(5, 10)
+        # Fungsi aktivasi
+        self.relu = nn.ReLU()
+        # Layer hidden ke output (10 neuron ke 1 output)
+        self.output = nn.Linear(10, 1)
+
+    def forward(self, x):
+        x = self.hidden(x)
+        x = self.relu(x)
+        x = self.output(x)
+        return x
+
+# 3. Inisialisasi Model, Loss Function, dan Optimizer
+model = SimpleNet()
+criterion = nn.MSELoss() # Mean Squared Error
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+# 4. Proses Pelatihan Singkat (5 Epoch)
+for epoch in range(5):
+    # Forward pass
+    prediction = model(input_data)
+    loss = criterion(prediction, target)
+    
+    # Backward pass & Optimization
+    optimizer.zero_grad() # Reset gradien
+    loss.backward()       # Backpropagation
+    optimizer.step()      # Update bobot
+    
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+\end{lstlisting}
+
+\textbf{Penjelasan Komponen}
+\begin{itemize}
+    \item \textbf{\texttt{nn.Module}}: Kelas dasar untuk semua modul jaringan saraf di PyTorch.
+    \item \textbf{\texttt{forward()}}: Menentukan bagaimana data mengalir melalui lapisan-lapisan \textit{neural network}.
+    \item \textbf{\texttt{optimizer.zero\_grad()}}: Sangat penting untuk membersihkan gradien lama sebelum menghitung gradien baru pada setiap iterasi agar tidak terakumulasi.
+    \item \textbf{\texttt{loss.backward()}}: Langkah di mana PyTorch menghitung gradien untuk setiap parameter yang memiliki \texttt{requires\_grad=True}.
+\end{itemize}
+    
+\end{enumerate}
+
+\section{Library TensorFlow}
+
+TensorFlow adalah sebuah \textbf{framework open-source} untuk \textit{machine learning} dan \textit{artificial intelligence} yang dikembangkan oleh Google Brain. 
+\textit{Framework} ini dibuat untuk membangun dan melatih model ML dan \textit{deep learning}. 
+
+Dalam penggunaan sehari-hari dengan Python, TensorFlow menyediakan ekosistem yang lengkap termasuk:
+\begin{itemize}
+    \item API tingkat rendah untuk mendefinisikan dan menjalankan komputasi numerik.
+    \item Integrasi dengan \textbf{Keras}, yaitu API tingkat tinggi untuk membangun model neural network secara intuitif.
+    \item Dukungan alat visualisasi dan debugging seperti TensorBoard.
+    \item Mekanisme optimasi model dan \textit{deployment} untuk perangkat \textit{mobile} dan \textit{web} (mis.\ TensorFlow Lite dan TensorFlow.js). 
+\end{itemize}
+
+TensorFlow memungkinkan penggunaan pada berbagai perangkat komputasi seperti CPU, GPU, dan TPU untuk mempercepat proses pelatihan model.
+
+\vspace{0.3cm}
+
+\textbf{Kelebihan TensorFlow} di antaranya sebagai berikut. 
+\begin{itemize}
+    \item \textbf{Skalabilitas tinggi} untuk riset dan produksi.
+    \item \textbf{Ekosistem lengkap} termasuk deployment, model pretrained, dan alat bantu lain
+    \item Mendukung komputasi terdistribusi dan akselerator perangkat keras.
+    \item Ketersediaan \textbf{API dalam Python} yang kuat dan fleksibel.
+\end{itemize}
+
+\textbf{Perbandingan Framework ML/DL}
+
+Berikut ini adalah tabel perbandingan antara empat \textit{framework} / \textit{library} populer dalam \textit{domain} \textit{machine learning} dan \textit{deep learning}:
+
+\begin{tabularx}{\textwidth}{@{} 
+    >{\centering\arraybackslash}m{3cm}
+    >{\centering\arraybackslash}m{3cm}
+    >{\centering\arraybackslash}m{3cm}
+    >{\centering\arraybackslash}m{3cm}
+    Y
+@{}}
+\toprule
+\textbf{Fitur} & \textbf{TensorFlow} & \textbf{PyTorch} & \textbf{Keras} & \textbf{Scikit-Learn} \\ \midrule
+
+\textbf{Jenis Library}
+& Deep Learning
+& Deep Learning
+& High-level DL API
+& Machine Learning klasik \\ \addlinespace
+
+\textbf{Tingkat Abstraksi}
+& Rendah–tinggi
+& Rendah–menengah
+& Tinggi
+& Tinggi \\ \addlinespace
+
+\textbf{Kemudahan Penggunaan}
+& Cukup kompleks
+& Lebih natural (Pythonic)
+& Sangat mudah
+& Sangat mudah \\ \addlinespace
+
+\textbf{Graf Komputasi}
+& Static + Eager Execution
+& Dynamic (define-by-run)
+& Menggunakan backend TensorFlow
+& Tidak menggunakan computational graph \\ \addlinespace
+
+\textbf{Fokus Utama}
+& Produksi dan deployment skala besar
+& Riset dan prototyping
+& Pembangunan model cepat
+& Algoritma ML tradisional \\ \addlinespace
+
+\textbf{Dukungan Deployment}
+& Sangat kuat (TF Lite, TF Serving, TF.js)
+& Terbatas dibanding TF
+& Mengikuti TensorFlow
+& Tidak berfokus pada deployment \\ \addlinespace
+
+\textbf{Contoh Use Case}
+& CNN, RNN, NLP, Vision
+& Riset DL, GAN, NLP
+& Prototyping neural network
+& Klasifikasi, regresi, clustering \\
+
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\textbf{Catatan:}
+\begin{itemize}
+    \item Keras pada awalnya adalah API tinggi yang berjalan di atas TensorFlow, sehingga memudahkan pembangunan model DL tanpa perlu detail komputasi tingkat rendah.
+    \item Scikit-Learn fokus pada algoritma\textit{ machine learning} klasik seperti regresi, SVM, dan pohon keputusan.
+    \item PyTorch dikenal dengan grafik komputasi dinamis yang cocok untuk riset dan \textit{prototyping}. 
+\end{itemize}
+
+\textbf{Arsitektur TensorFlow} secara umum dapat terdiri dari beberapa komponen utama sebagai berikut. 
+
+\begin{itemize}
+    \item \textbf{Tensor}
+
+    Tensor adalah struktur data utama di TensorFlow. Tensor merupakan suatu vektor atau matriks multidimensi yang digunakan untuk menyimpan \textit{input}, parameter, dan \textit{output} model. 
+
+    \item \textbf{Computational Graph}
+
+    TensorFlow membangun \textit{graph komputasi} yang terdiri dari \textbf{\textit{node}} yakni operasi matematis (penjumlahan, perkalian, aktivasi) serta \textbf{\textit{edge}} berupa aliran tensor di antara operasi. 
+
+    \item \textbf{Execution}
+
+    TensorFlow memiliki dua model eksekusi yakni Graph Execution (komputasi dioptimalkan terlebih dahulu) dan Eager Execution (hasil langsung dihitung).
+\end{itemize}
+
+\textbf{Ekosistem TensorFlow} mendukung seluruh proses dari pembangunan dan pelatihan model. TensorFlow memiliki beberapa ekosistem di antaranya sebagai berikut. 
+
+\subsection{TensorFlow Core}
+API tingkat rendah untuk:
+\begin{itemize}
+    \item operasi tensor
+    \item pembuatan computational graph
+    \item kontrol eksekusi
+\end{itemize}
+
+\subsection{Keras}
+API tingkat tinggi di dalam TensorFlow untuk:
+\begin{itemize}
+    \item membangun neural network secara sederhana
+    \item menyusun layer secara berurutan
+    \item training dan evaluasi model
+\end{itemize}
+
+\subsection{TensorBoard}
+Alat visualisasi untuk:
+\begin{itemize}
+    \item memantau proses training
+    \item melihat grafik loss dan akurasi
+    \item melihat struktur model dan graph
+\end{itemize}
+
+\subsection{TensorFlow Lite}
+Digunakan untuk:
+\begin{itemize}
+    \item deployment pada perangkat mobile
+    \item IoT dan edge device
+    \item optimasi model menjadi lebih ringan
+\end{itemize}
+
+\subsection{TensorFlow Serving}
+Digunakan untuk:
+\begin{itemize}
+    \item deployment model pada server
+    \item layanan API untuk model machine learning
+\end{itemize}
+
+\subsection{TensorFlow.js}
+Digunakan untuk menjalankan model:
+\begin{itemize}
+    \item langsung di browser
+    \item menggunakan JavaScript
+\end{itemize}
+
+\subsection{TensorFlow Hub}
+Repositori yang menyediakan:
+\begin{itemize}
+    \item model siap pakai (pre-trained)
+    \item transfer learning
+\end{itemize}
+
+
+\end{document}
