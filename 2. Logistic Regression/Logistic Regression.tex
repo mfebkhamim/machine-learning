@@ -1,0 +1,388 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pengaturan warna untuk kode Python
+% --- Konfigurasi Kode Python ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% agar kolom X bisa vertical centering (middle)
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% kolom X yang center horizontal
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Logistic Regression}}
+\author{Mohammad Febryan Khamim}
+\date{} 
+
+\begin{document}
+
+\maketitle
+
+\section{Pengantar Logistic Regression}
+\textit{\textbf{Logistic Regression}} adalah algoritma \textit{supervised learning} untuk permasalahan klasifikasi. 
+Regresi ini menggunakan klasifikasi \textit{binary} sehingga menghasilkan output \textit{binary}. 
+\textbf{\textit{Logistic Regression}} menggunakan \textbf{fungsi sigmoid} untuk meng-\textit{convert} input menjadi nilai probabilitas. 
+
+\section{Linear Regression vs Logistic Regression}
+Terdapat beberapa perbedaan antara regresi linear dan regresi logistik, di antaranya sebagai berikut. 
+
+\begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Regresi Linear} & \textbf{Regresi Logistik} \\ \hline
+    Prediksi nilai kontinu & Prediksi kelas kategorikal \\ \hline
+    Menggunakan \textit{best-fit line} & Menggunakan kurva sigmoid \\ \hline
+    Menyelesaikan masalah regresi & Menyelesaikan masalah klasifikasi \\ \hline
+    \end{tabular}
+\end{center}
+
+\section{Tipe-Tipe Logistic Regression}
+
+Terdapat beberapa tipe Logistic Regression berdasarkan variabel dependennya, di antaranya: 
+
+\begin{itemize}[label=\textbullet, font=\color{black}]
+    \item \textbf{Binomial Logistic Regression (Regresi Logistik Binomial)} \\
+    Tipe ini digunakan ketika variabel dependen hanya memiliki dua kategori kemungkinan (biner).
+    \begin{itemize}
+        \item \textit{Contoh:} Ya atau Tidak, Lulus atau Gagal, 0 atau 1.
+    \end{itemize}
+
+    \item \textbf{Multinomial Logistic Regression (Regresi Logistik Multinomial)} \\
+    Tipe ini digunakan ketika variabel dependen memiliki tiga atau lebih kategori kemungkinan yang tidak memiliki urutan atau peringkat tertentu.
+    \begin{itemize}
+        \item \textit{Contoh:} Klasifikasi jenis hewan (Kucing, Anjing, Domba).
+    \end{itemize}
+
+    \item \textbf{Ordinal Logistic Regression (Regresi Logistik Ordinal)} \\
+    Tipe ini digunakan ketika variabel dependen memiliki tiga atau lebih kategori yang memiliki urutan alami atau tingkatan (peringkat).
+    \begin{itemize}
+        \item \textit{Contoh:} Penilaian atau rating (Low, Medium, High).
+    \end{itemize}
+\end{itemize}
+
+\section{Asumsi Regresi Logistik}
+
+\begin{enumerate}
+    \item Observasi independen $\rightarrow$ Tak ada korelasi antar sampel
+    \item Variabel binary dependen $\rightarrow$ Variabel harus biner, gunakan \textbf{softmax}
+    \item Hubungan linearitas antara variabel \& log $\rightarrow$ Transformasi fitur
+    \item Tak ada \textit{outlier}
+    \item Ukuran sampel besar
+\end{enumerate}
+
+\section{Apa Itu Fungsi Sigmoid?}
+
+\begin{itemize}
+    \item Sigmoid merupakan fungsi untuk convert output mentah menjadi nilai probabilitas antara $0$--$1$.
+    \item Fungsi ini mengonversi sembarang angka menjadi antara $0$--$1$ yang membentuk kurva ``S''.
+    \item Dalam \textbf{Logistic Regression}, digunakan \textit{threshold}, umumnya $0{,}5$. 
+    \begin{itemize}
+        \item Jika sigmoid lebih dari atau sama dengan \textit{threshold} $\rightarrow$ anggap 1
+        \item Jika di bawah 0 $\rightarrow$ anggap 0
+    \end{itemize}
+\end{itemize}
+
+\section{Konsep Matematis Logistic Regression}
+
+Berikut adalah konsep matematis dalam algoritma Logistic Regression:
+
+\begin{enumerate}
+    \item Anggap terdapat sebuah fitur input yang direpresentasikan dalam matriks dan variabel dependen $Y$ yang bernilai biner $0$ atau $1$.
+
+    \begin{equation*}
+        \begin{bmatrix}
+            x_{11} & \cdots & x_{1m} \\
+            x_{21} & \cdots & x_{2m} \\
+            \vdots & \ddots & \vdots \\
+            x_{n1} & \cdots & x_{nm}
+        \end{bmatrix}
+    \end{equation*}
+
+    dan 
+
+    \begin{equation*}
+        Y =
+            \begin{cases}
+            0, & \text{jika class 1}, \\
+            1, & \text{jika class 2}.
+            \end{cases}
+    \end{equation*} 
+
+    \item Dari input tersebut, maka berlaku kombinasi linear:
+
+    \begin{equation*}
+        z = \left( \sum_{i=1}^{n} w_i x_i \right) + b
+    \end{equation*}
+
+    dengan:
+    \begin{itemize}
+        \item $\sum_{i=1}^{n} w_i x_i = \text{bobot / koefisien}$
+        \item $z = \text{skor linear}$
+        \item $b = \text{intercept}$
+        \item $x_i = \text{fitur input}$
+    \end{itemize}
+
+    \item Mengubah dari nilai kontinu z menjadi probabilitas antara 0 hingga 1 yang dapat digunakan untuk prediksi kelas
+
+    \textbf{(*) Gunakan fungsi Sigmoid}
+
+    \begin{equation*}
+        \sigma(z) = \dfrac{1}{1+e^{-z}}
+    \end{equation*}
+
+    Sehingga, diperoleh grafik '\textbf{S-\textit{Shape}}' dengan:
+
+    \begin{itemize}
+        \item $\sigma(z) = 1$ saat $z\rightarrow \infty$
+        \item $\sigma(z) = 0$ saat $z\rightarrow -\infty$
+        \item $\sigma(z)$ selalu di antara 0 hingga 1
+    \end{itemize}
+
+    dengan probabilitas kelas dalam \textbf{\textit{Logistic Regression}} dapat dihitung: 
+
+    
+    
+    \textbf{Persamaan Logistic Regression dan Peluang}
+
+    Berikut adalah penurunan hubungan antara \textit{odds} dan probabilitas:
+
+    \begin{enumerate}
+        \item \textbf{Definisi Odds:}
+        \begin{equation*}
+            \frac{P(x)}{1 - P(x)} = e^z
+        \end{equation*}
+    
+        \item \textbf{Log-Odds (Logit):}
+        \begin{align*}
+            \log \left( \frac{P(x)}{1 - P(x)} \right) &= \log e^z \\
+            \log \left( \frac{P(x)}{1 - P(x)} \right) &= z \\
+            &= w \cdot X + b
+        \end{align*}
+    
+        \item \textbf{Penurunan Menuju Fungsi Sigmoid:}
+        \begin{align*}
+            \frac{P(x)}{1 - P(x)} &= e^{w \cdot X + b} \\
+            P(x) &= (1 - P(x)) e^{w \cdot X + b} \\
+            P(x) &= e^{w \cdot X + b} - P(x) e^{w \cdot X + b} \\
+            P(x) \left( 1 + e^{w \cdot X + b} \right) &= e^{w \cdot X + b}
+        \end{align*}
+        
+        Sehingga diperoleh fungsi probabilitas:
+        \begin{equation*}
+            P(x) = \frac{e^{w \cdot X + b}}{1 + e^{w \cdot X + b}} \quad \text{atau} \quad P(x) = \frac{1}{1 + e^{-(w \cdot X + b)}}
+        \end{equation*}
+    \end{enumerate}
+    
+\end{enumerate}
+
+\newpage
+
+\section{Penerapan pada Program Python}
+
+\subsection{Import Libraries yang Dibutuhkan}
+\begin{verbatim}
+import pandas as pd
+import numpy as np
+
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+\end{verbatim}
+
+\subsection{Membaca File CSV dan Informasi pada Data}
+
+\begin{verbatim}
+data = pd.read_csv("data.csv")
+
+
+print(data.head())
+print(data.info())
+print(data.describe())
+\end{verbatim}
+
+\subsection{Prapemrosesan Data} % Cek missing values, mengisi, dan drop features yang ga dibutuhkan
+
+\begin{verbatim}
+# Cek missing values
+print(data.isnull().sum())
+
+
+# Mengisi missing values (contoh: numerik dengan mean)
+for col in data.select_dtypes(include=np.number).columns:
+data[col].fillna(data[col].mean(), inplace=True)
+
+
+# Drop fitur yang tidak dibutuhkan
+data.drop(columns=['ID'], inplace=True, errors='ignore')
+\end{verbatim}
+
+\subsection{Konversi Data Kategorikal}
+
+\begin{verbatim}
+label_encoders = {}
+
+
+for col in data.select_dtypes(include='object').columns:
+le = LabelEncoder()
+data[col] = le.fit_transform(data[col])
+label_encoders[col] = le
+\end{verbatim}
+
+\subsection{Diperoleh Fitur yang Akan Dipakai}
+
+\begin{verbatim}
+X = data.drop(columns=['Target'])
+y = data['Target']
+
+
+print(X.head())
+print(y.head())
+\end{verbatim}
+
+\subsection{Konstruksi Model}
+
+\begin{verbatim}
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+X, y, test_size=0.2, random_state=42
+)
+
+
+# Standarisasi fitur
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+# Inisialisasi model
+model = LogisticRegression()
+\end{verbatim}
+
+\subsection{\textit{Running} Model}
+\begin{verbatim}
+model.fit(X_train, y_train)
+
+
+y_pred = model.predict(X_test)
+\end{verbatim}
+
+\subsection{Evaluasi Model}
+\begin{verbatim}
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
+
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+\end{verbatim}
+
+\newpage
+
+\section{Full Program Logistic Regression}
+
+\begin{lstlisting}[language=Python, caption=Program Logistic Regression Python]
+
+# Import Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplorlib inline
+
+
+# PRA-PEMROSESAN DATA
+
+# Membaca data
+data = pd.read_csv(r'E:\Perkuliahan\Karier\13-Logistic-Regression\advertising.csv')
+
+# Menampilkan Informasi Dasar tentang Data
+data.head()
+data.info()
+data.describe()
+
+# EXPLORATORY DATA ANALYSIS (EDA)
+
+# Membuat Histogram untuk Age
+sns.set_style('whitegrid')
+data['Age'].hist(bins=30)
+plt.xlabel('Age')
+
+# Membuat Jointplot antara Age dan Area Income
+sns.jointplot(x='Age', y='Area Income', data=data)
+
+# Membuat Jointplot antara Daily Time Spent on Site dan Age
+sns.jointplot(x='Age',y='Daily Time Spent on Site',data=ad_data,color='red',kind='kde')
+
+# Membuat jointplot antara Daily Time Spent on Site dan Daily Internet Usage
+sns.jointplot(x='Daily Time Spent on Site',y='Daily Internet Usage',data=ad_data,color='green')
+
+# Membuat pairplot dengan hue berdasarkan Clicked on Ad
+# Clicked on Ad adalah variabel target
+sns.pairplot(data,hue='Clicked on Ad',palette='bwr')
+
+# PELATIHAN MODEL LOGISTIC REGRESSION
+
+# Memisahkan data train dan data test
+from sklearn.model_selection import train_test_split
+X = data[['Daily Time Spent on Site', 'Age', 'Area Income','Daily Internet Usage', 'Male']]
+y = data['Clicked on Ad']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
+# Melatih model Logistic Regression
+from sklearn.linear_model import LogisticRegression
+logmodel = LogisticRegression()
+logmodel.fit(X_train,y_train)
+
+# MELAKUKAN PREDIKSI
+predictions = logmodel.predict(X_test)
+
+# Evaluasi Model
+from sklearn.metrics import classification_report, confusion_matrix
+print(classification_report(y_test,predictions))
+
+\end{lstlisting}
+
+\end{document} 
