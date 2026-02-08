@@ -1,0 +1,341 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm, top=2cm]{geometry}   % atur margin + jarak atas
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+
+% Pengaturan warna untuk kode Python
+% --- Konfigurasi Kode Python ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% agar kolom X bisa vertical centering (middle)
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% kolom X yang center horizontal
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{\textbf{Tree-based Model}}
+\author{Mohammad Febryan Khamim}
+\date{} % kosongkan tanggal
+
+\begin{document}
+
+\maketitle
+
+\section{Decision Tree}
+
+\textbf{\textit{Decision Tree}} adalah algoritma \textit{supervised learning} berbasis pohon (\textit{tree-based}) yang digunakan untuk tugas \textbf{klasifikasi} dan \textbf{regresi}. 
+\textbf{\textit{Decision Tree}} atau pohon keputusan membantu untuk menentukan keputusan dengan menunjukkan perbedaan pilihan dan bagaimana keterkaitannya. 
+
+\subsection{Elemen-Elemen dalam Decision Tree}
+
+Berikut adalah beberapa elemen-elemen dalam \textbf{\textit{Decision Tree}}, di antaranya adalah: 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Gambar/GambarTree.jpg}
+    \caption{Ilustrasi Struktur Decision Tree}
+    \label{fig:decision_tree}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Root node} : Titik awal percabangan pohon atau pertanyaan utama. 
+    \item \textbf{Branches node} : Garis yang menghubungkan \textit{nodes} dan menggambarkan alur dari keputusan satu ke keputusan selanjutnya. 
+    \item \textbf{Internal nodes} : Letak keputusan berdasarkan fitur. 
+    \item \textbf{Leaf nodes} : Titik paling akhir $\rightarrow$ letak keputusan. 
+\end{itemize}
+
+\subsection{Digunakan Ketika}
+\begin{itemize}
+    \item \textbf{Cocok digunakan} : Butuh model yang mudah dijelaskan, fitur campuran dan minim proses, \textit{dataset} kecil-menengah.
+    \item \textbf{Tidak digunakan} : \textit{Dataset} besar, fitur kategori banyak. 
+\end{itemize}
+
+\subsection{Kelebihan dan Kekurangan Decision Tree}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{6cm}|>{\raggedright\arraybackslash}p{6cm}|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kelebihan}} &
+\multicolumn{1}{c|}{\textbf{Kekurangan}} \\ \hline
+
+\begin{itemize}[leftmargin=*, itemsep=2pt, topsep=0pt, partopsep=0pt, parsep=0pt]
+    \item Mudah dipahami
+    \item Dapat digunakan untuk klasifikasi atau regresi
+    \item Dapat menangkap berbagai jenis fitur
+    \item Menangkap hubungan nonlinier
+    \item Tahan terhadap \textit{outlier}
+    \item Prediksi cepat
+    \item Mampu menangani \textit{missing value}
+\end{itemize}
+&
+\begin{itemize}[leftmargin=*, itemsep=2pt, topsep=0pt, partopsep=0pt, parsep=0pt]
+    \item Mudah mengalami \textit{overfitting}
+    \item Tidak stabil terhadap perubahan data
+    \item Bias terhadap fitur dengan banyak kategori
+    \item Bersifat \textit{greedy} dan lokal optima
+    \item Kinerja regresi terbatas
+    \item Sensitif terhadap \textit{imbalanced data}
+\end{itemize}
+\\ \hline
+
+\end{tabular}
+\end{center}
+
+\subsection{Langkah Algoritma Decision Tree}
+Terdapat beberapa langkah dalam membentuk \textbf{\textit{Decision Tree}}, di antaranya sebagai berikut. 
+
+\begin{enumerate}
+    \item \textbf{Menentukan Gini Score Tiap Leaf}
+        \begin{equation*}
+            \text{Gini} = 1 - \sum_{i=1}^n P_i^2
+        \end{equation*}
+    \item \textbf{Menentukan Total Gini Impurity}
+        \begin{equation*}
+            \text{Total Gini} = \text{bobot}_1 \times \text{Gini}_1 + \text{bobot}_2 \times \text{Gini}_2 
+        \end{equation*}
+
+        atau dapat dituliskan sebagai: 
+
+        \begin{equation*}
+            \text{Total Gini} = \text{Rata-rata Gini berbobot}
+        \end{equation*}
+    \item \textbf{Menggunakan fitur dengan Gini terkecil sebagai \textit{root node}}
+    \item \textbf{Ulangi langkah 1 -- 3 hingga pohon terbentuk}
+\end{enumerate}
+
+\section{Random Forest}
+
+\textbf{\textit{Random Forest}} adalah algoritma \textit{tree-based} pada \textit{supervised learning} yang menggunakan banyak \textbf{\textit{Decision Tree}} untuk menuntukan keputusan. 
+Setiap pohon memeriksa bagian acak yang berbeda dari data dan hasilnya digabungkan melalui pemungutan suara untuk menentukan keputusan yang sesuai. 
+
+\textbf{\textit{Random Forest}} dikembangkan untuk mengatasi kelemahan utama dari
+\textit{Decision Tree}, yaitu kecenderungan terhadap \textit{overfitting} dan ketidakstabilan model.
+Alih-alih menggunakan satu pohon keputusan, \textit{Random Forest} membangun banyak pohon
+yang saling independen dan mengombinasikan hasil prediksinya.
+
+Dengan menggabungkan banyak pohon, kesalahan dari satu pohon dapat dikompensasi
+oleh pohon lainnya, sehingga model menjadi lebih stabil dan memiliki kemampuan
+generalisasi yang lebih baik terhadap data baru.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Gambar/RandomForest.jpg}
+    \caption{Ilustrasi Struktur \textbf{\textit{Random Forest}}}
+    \label{fig:decision_tree}
+\end{figure}
+
+\subsection{Prinsip Kerja \textbf{\textit{Random Forest}}}
+
+Keacakan (\textit{randomness}) pada \textit{Random Forest} berasal dari dua aspek utama,
+yaitu pemilihan data secara acak melalui proses \textit{bootstrap} dan pemilihan
+fitur secara acak pada setiap percabangan pohon.
+Kombinasi kedua mekanisme ini menghasilkan kumpulan pohon yang beragam
+dan tidak saling berkorelasi kuat.
+
+Untuk tugas klasifikasi, hasil akhir ditentukan melalui mekanisme \textit{majority voting},
+sedangkan untuk regresi digunakan nilai rata-rata dari seluruh prediksi pohon.
+
+\begin{itemize}
+    \item Membuat atau membentuk banyak \textbf{\textit{Decision Tree}}
+    \item Memilih fitur-fitur secara acak
+    \item Masing-masing \textit{tree} membuat prediksi
+    \item Mengombinasikan prediksi
+\end{itemize}
+
+\subsection{Kelebihan dan Kekurangan \textbf{\textit{Random Forest}}}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{6cm}|>{\raggedright\arraybackslash}p{6cm}|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Kelebihan}} &
+\multicolumn{1}{c|}{\textbf{Kekurangan}} \\ \hline
+
+\begin{itemize}[leftmargin=*, itemsep=2pt, topsep=0pt, partopsep=0pt, parsep=0pt]
+    \item Akurat memprediksi \textit{dataset} besar
+    \item Menangani \textit{missing value}
+    \item Tidak memerlukan normalisasi dan standardisasi
+    \item Mengurangi \textit{overfitting}
+\end{itemize}
+&
+\begin{itemize}[leftmargin=*, itemsep=2pt, topsep=0pt, partopsep=0pt, parsep=0pt]
+    \item Mahal dari segi komputasi
+    \item Sulit untuk diinterpretasikan
+\end{itemize}
+\\ \hline
+
+\end{tabular}
+\end{center}
+
+\subsection{Parameter dalam \textbf{\textit{Random Forest}}}
+
+Pengaturan parameter yang tepat sangat berpengaruh terhadap performa model
+\textit{Random Forest}.
+Parameter seperti jumlah pohon, kedalaman pohon, dan jumlah fitur yang dipilih
+perlu disesuaikan dengan karakteristik data agar diperoleh keseimbangan antara
+akurasi dan efisiensi komputasi.
+Terdapat beberapa parameter yang dapat diatur dalam \textbf{\textit{Random Forest}} untuk meningkatkan performa dari model, di antaranya sebagai berikut. 
+
+\begin{enumerate}[leftmargin=*, itemsep=6pt]
+
+    \item \textbf{n\_estimators}
+
+    Jumlah pohon keputusan yang dibentuk dalam model.
+    Semakin banyak jumlah pohon, umumnya akurasi model meningkat, namun kompleksitas komputasi juga bertambah.
+    Sebaliknya, jumlah pohon yang terlalu sedikit dapat menurunkan akurasi model.
+
+    \item \textbf{max\_features}
+
+    Jumlah fitur yang dipilih secara acak saat mencari \textit{split} terbaik pada setiap \textit{node}.
+    Parameter ini berfungsi untuk mengontrol \textit{overfitting} dengan membatasi jumlah fitur yang dipertimbangkan.
+    Beberapa pilihan nilai yang umum digunakan antara lain:
+
+    \begin{itemize}[leftmargin=*, itemsep=2pt]
+        \item \texttt{"sqrt"} : $\sqrt{\text{jumlah fitur}}$ (rekomendasi umum)
+        \item \texttt{"log2"} : $\log_2(\text{jumlah fitur})$ untuk variasi yang lebih besar
+        \item \texttt{None} : menggunakan seluruh fitur
+    \end{itemize}
+
+    \item \textbf{max\_depth}
+
+    Kedalaman maksimum setiap pohon keputusan.
+    Kedalaman yang terlalu kecil dapat menyebabkan \textit{underfitting}, sedangkan kedalaman yang terlalu besar dapat menyebabkan \textit{overfitting}.
+
+    \item \textbf{max\_leaf\_nodes}
+
+    Batas maksimum jumlah daun (\textit{leaf nodes}) yang diperbolehkan pada setiap pohon.
+
+    \item \textbf{max\_samples}
+
+    Jumlah atau proporsi sampel data yang diambil secara acak untuk membangun setiap pohon pada proses \textit{bootstrap}.
+
+    \item \textbf{min\_samples\_split}
+
+    Jumlah minimum sampel yang diperlukan untuk membagi (\textit{split}) sebuah \textit{node} menjadi dua cabang.
+
+\end{enumerate}
+
+\newpage
+
+\section{Source Code Python}
+
+\begin{lstlisting}[language=Python, caption=Python Code]
+
+# Import libraries
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+# Load the data
+loans = pd.read_csv(r'e:\Perkuliahan\Karier\15-Decision-Trees-and-Random-Forests\loan_data.csv')
+loans.info()
+loans.describe()
+loans.head()
+
+# Exploratory Data Analysis
+plt.figure(figsize=(10,6))
+loans[loans['credit.policy']==1]['fico'].hist(alpha=0.5,color='blue',
+                                              bins=30,label='Credit.Policy=1')
+loans[loans['credit.policy']==0]['fico'].hist(alpha=0.5,color='red',
+                                              bins=30,label='Credit.Policy=0')
+plt.legend()
+plt.xlabel('FICO')
+
+plt.figure(figsize=(10,6))
+loans[loans['not.fully.paid']==1]['fico'].hist(alpha=0.5,color='blue',
+                                              bins=30,label='Not Fully Paid=1')
+loans[loans['not.fully.paid']==0]['fico'].hist(alpha=0.5,color='red',
+                                              bins=30,label='Not Fully Paid=0')
+plt.legend()
+plt.xlabel('FICO')
+
+countplot = sns.countplot(x='purpose',hue='not.fully.paid',data=loans,palette='Set1')
+countplot.set_xticklabels(countplot.get_xticklabels(),rotation=45)
+plt.xlabel('Purpose')
+plt.ylabel('Count')
+plt.figure(figsize=(11,7))
+plt.show()
+
+jointplot = sns.jointplot(x='fico',y='int.rate',data=loans,color='purple')
+
+plt.figure(figsize=(11,7))
+sns.lmplot(y='int.rate',x='fico',data=loans,hue='credit.policy',
+           col='not.fully.paid',palette='Set1')
+
+# Data Preprocessing
+cat_feats = ['purpose']
+final_data = pd.get_dummies(loans,columns=cat_feats,drop_first=True)
+
+# Train Test Split
+from sklearn.model_selection import train_test_split
+X = final_data.drop('not.fully.paid',axis=1)
+y = final_data['not.fully.paid']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Training a Decision Tree Model
+from sklearn.tree import DecisionTreeClassifier
+
+dtree = DecisionTreeClassifier()
+dtree.fit(X_train,y_train)
+predictions = dtree.predict(X_test)
+
+# Evaluation
+from sklearn.metrics import classification_report,confusion_matrix
+
+print(classification_report(y_test,predictions))
+print(confusion_matrix(y_test,predictions))
+
+# Training a Random Forest Model
+from sklearn.ensemble import RandomForestClassifier
+
+rfc = RandomForestClassifier(n_estimators=600)
+rfc.fit(X_train,y_train)
+predictions = rfc.predict(X_test)
+
+# Evaluation
+from sklearn.metrics import classification_report,confusion_matrix
+
+print(classification_report(y_test,predictions))
+print(confusion_matrix(y_test,predictions))
+
+\end{lstlisting}
+
+\end{document} 
