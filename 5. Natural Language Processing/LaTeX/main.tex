@@ -1,0 +1,355 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm, top=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+% Pengaturan warna untuk kode Python
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\titleformat{\title}{\normalfont\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0.8\baselineskip}{0.6\baselineskip}
+
+\title{}
+\author{Mohammad Febryan Khamim}
+\date{}
+
+\begin{document}
+
+    \begin{center}
+        {\Large\textbf{Natural Language Processing (NLP)}} \\
+        Mohammad Febryan Khamim
+    \end{center}
+
+\textbf{\textit{Natural Language Processing} (NLP)} adalah cabang dari kecerdasan tiruan yang berfokus pada interaksi antara komputer dengan manusia melalui bahasa alami (teks atau ucapan yang digunakan sehari-hari). 
+\textbf{Tujuannya} adalah memahami, menginterpretasikan, dan meng-\textit{generate} bahasa yang mudah dimengerti manusia. 
+NLP merupakan cabang ilmu yang merupakan kombinasi dari linguistik, \textit{computer science}, dan \textit{machine learning}. 
+
+Beberapa tugas ML yang dapat diselesaikan dengan NLP, antara lain:
+
+\begin{multicols}{2}
+    \begin{itemize}[itemsep=0pt, topsep=0pt, leftmargin=*]
+        \item Terjemahan bahasa
+        \item Sentimen analisis
+        \item \textit{Speech recognition}
+        \item \textit{Text generation}
+    \end{itemize}
+\end{multicols}
+
+\section{Konsep Inti atau Teknik NLP}
+
+\begin{enumerate}[itemsep=0pt, topsep=0pt]
+    \item \textbf{Tokenisasi} : Proses pemecahan teks menjadi unit-unit yang lebih kecil, disebut token. 
+    \item \textbf{Part of Speech Tagging} : Proses memberi label pada setiap kata dalam teks sesuai dengan kelas katanya, seperti kata benda (\textit{noun}), kata kerja (\textit{verb}), kata sifat (\textit{adjective}), dan sebagainya. 
+    \item \textbf{Named Entity Recognition (NER)} : Identifikasi dan pengelompokkan entitas bernama dalam teks ke dalam kategori tertentu, seperti nama orang, organisasi, lokasi, dan lainnya. 
+    \item \textbf{Analisis Sentimen} : Menentukan nada emosi suatu teks. Proses ini melibatkan klasifikasi teks sebagai positif, negatif, atau netral. 
+    \item \textbf{Klasifikasi Teks} : Pengelompokkan teks ke dalam kelas atau label tertentu. Biasanya digunakan untuk klasifikasi \textit{spam}. 
+    \item \textbf{Machine Translation} : Penerjemahan teks secara otomatis dari satu bahasa ke bahasa lainnya. 
+    \item \textbf{Speech Recognition} : Mengubah bahasa lisan menjadi teks.
+\end{enumerate}
+
+\vspace{0.35cm}
+
+Dalam NLP, terdapat beberapa tantangan yang harus diatasi. 
+Tantangan tersebut di antaranya ialah: 
+
+\begin{multicols}{2}
+    \begin{itemize}[itemsep=0pt, topsep=0pt, leftmargin=*]
+        \item Ambiguitas
+        \item \textit{Context understanding}
+        \item Kata sarkasme dan ironi
+        \item Multilingualisme
+        \item Privasi data
+    \end{itemize}
+\end{multicols}
+
+Untuk dapat menyelesaikan tugas dalam NLP, terdapat beberapa teknik yang biasa digunakan, di antaranya ialah:
+
+\begin{multicols}{2}
+    \begin{itemize}[itemsep=0pt, topsep=0pt, leftmargin=*]
+        \item Artificial Neural Networks (ANNs)
+        \item Recurrent Neural Networks (RNNs)
+        \item Long Short Term Memory (LSTM)
+        \item Gated Recurrent Unit (GRU)
+        \item Seq2Seq Model
+        \item Transformers-based Model
+    \end{itemize}
+\end{multicols}
+
+\newpage
+
+Sementara itu, dalam NLP telah tersedia beberapa model yang telah di-\textit{training}. 
+\textit{Pre-trained} model tersebut antara lain: 
+
+\begin{multicols}{2}
+    \begin{itemize}[itemsep=0pt, topsep=0pt, leftmargin=*]
+        \item GPT
+        \item Transformers XL
+        \item Text-to-Text Transfer Transformer (T5)
+        \item Transfer learning
+    \end{itemize}
+\end{multicols}
+
+\section{Langkah-Langkah dalam NLP}
+Berikut ini adalah beberapa langkah dalam NLP, di antaranya: 
+\begin{enumerate}
+    \item \textbf{\textit{Text Input} dan \textit{Data Collection}}
+    \begin{itemize}[noitemsep, topsep=0pt]
+        \item \textbf{Data Collection} : Mengumpulkan data teks dari berbagai sumber, seperti situs web, buku, media sosial, atau \textit{database}. 
+        \item \textbf{Data Storage} : Menyimpan data yang telah dikumpulkan dalam format yang terstruktur.
+    \end{itemize}
+
+    \item \textbf{Prapemrosesan Teks}
+    Tahap ini merupakan langkah penting dalam NLP yang bertujuan untuk membersihkan dan menyiapkan data teks mentah untuk analisis. 
+    \begin{itemize}[noitemsep, topsep=0pt]
+        \item \textbf{Tokenisasi} : Mengubah ke unit sederhana
+        \item \textbf{Lowercasing} : Mengubah teks ke \textit{lowercase} atau kapitil
+        \item \textbf{Stopward removal} : Penghapusan kata umum yang tak bermakna (\textit{and}, \textit{the}, \textit{is})
+        \item \textbf{Punctuation removal} : Menghapus tanda baca
+        \item \textbf{Stemming and Lemmatization} : Mengubah kata ke bentuk dasar atau akar katanya
+        \item \textbf{Noramlisasi Teks} : Menyeragamkan format teks 
+    \end{itemize}
+
+    \item \textbf{Representasi Teks}
+    \begin{itemize}[noitemsep, topsep=0pt]
+        \item \textbf{Bag of Words (BoW)} : Merepresentasikan teks sebagai kumpulan kata; mengabaikan tata bahasa dan urutan kata $\rightarrow$ tetap mempertimbangkan frekuensi kemunculan kata. 
+        \item \textbf{Term Frequency-Inverse Document Frequency (TF-IDF)} : Ukuran statistik yang menunjukkan seberapa penting sebuah kata dalam satu dokumen dibandingkan dengan seluruh kumpulan dokumen.
+        \item \textbf{Word Embeddings} : Representasi kata dalam bentuk vektor berdimensi rapat (\textit{dense}), yakni kata-kata yang maknanya mirip akan berdekatan dalam ruang vektor. 
+    \end{itemize}
+    
+    \item \textbf{Ekstraksi Fitur}
+    \begin{itemize}[noitemsep, topsep=0pt]
+        \item \textbf{N-grams} : Mengambil urutan N-kata untuk mempertahankan sebagian konteks dan urutan data
+        \item \textbf{Syntatic Features} : Menggunakan informasi struktur kalimat
+        \item \textbf{Semantic Features} : Menangkap makna atau konteks data
+    \end{itemize}
+
+    \item \textbf{Pemilihan dan Pelatihan Model} : Bisa melakukan \textit{fine-tuning} dari model NLP yang sudah ada, seperti BERT, GPT, dan Transformers lainnya. 
+
+    \item \textbf{Penerapan Model dan Inferensi}
+
+    \item \textbf{Evaluasi dan Optimasi} : Mengevaluasi model menggunakan metrik evaluasi, seperti \textit{accuracy}, \textit{recall}, \textit{precision}, dan F1-Score. 
+    Untuk mengoptimasi model, selama proses pelatihan biasanya akan dilakukan \textit{\textbf{Hyperparameter Tuning}} atau \textit{\textbf{Error Analysis}}
+\end{enumerate}
+
+\section{Konsep Matematis dalam NLP}
+
+\begin{itemize}
+    \item \textbf{Cosine Similarity} : Digunakan untuk mengecek kemiripan dari beberapa objek.
+    Biasanya dokumen yang ada dianggap sebagai vektor fitur. 
+
+    \begin{equation*}
+        \text{Cosine (A,B)} = \dfrac{\text{A}.\text{B}}{||\text{A}||||\text{B}||}
+    \end{equation*}
+
+    \item \textbf{Term-Frequency} : Banyak atau jumlah kemunculan \textit{term} t dalam dokumen d.
+    Term-Frequency (TF) ini dapat digunakan untuk mengukur seberapa sering suatu kata muncul dalam satu dokumen.
+
+    \item \textbf{\textit{Inverse Document Frequency}}
+
+    \textbf{\textit{Inverse Document Frequency}} digunakan untuk mengukur seberapa jarang kata tersebut muncul di seluruh dokumen.
+    
+    \begin{equation*}
+        \text{IDF}(t) = log(\dfrac{D}{t}) 
+    \end{equation*}
+    dengan D adalah banyaknya dokumen dan t adalah total dokumen dengan term tersebut. 
+
+    \item \textbf{TF-IDF} 
+
+    \begin{equation*}
+        W_{x,y} = tf_{x,y} \times log(\dfrac{N}{df_x})
+    \end{equation*}
+
+    \textbf{TF-IDF} berguna untuk memberikan bobot atau 'nilai' kata dalam dokumen berdasarkan seberapa penting kata dalam dokumen. 
+    Akan tetapi, tak jarang terdapat beberapa kasus NLP yang menunjukkan bahwa penggunaan TF-IDF malah mengurangi akurasi. 
+    Terdapat beberapa alasan terkait kasus tersebut, di antaranya: 
+    \begin{enumerate}
+        \item \textbf{Informasi Frekuensi Mentah Bisa Lebih Berguna}.
+
+        Pada beberapa kasus, misalnya \textit{spam detection} atau analisis sentimen, kata tertentu yang memiliki makna intuisi penting dalam pesan cenderung sangat sering muncul pada kelas tertentu. 
+        Tingginya intensitas kemunculan kata di hampir semua e-mail spam, malah membuat nilai IDF kecil sehingga membuat bobotnya menurun. 
+        Padahal, dalam kasus tersebut, kata yang sering muncul (seperti gratis, dan sebagainya), penting untuk klasifikasi spam. 
+
+        \item \textbf{Dataset Kecil $\rightarrow$ IDF Tidak Stabil}
+
+        Apabila jumlah dokumen sedikit, perhitungan IDF menjadi tidak representatif karena satu dokumen tambahan saja dapat mengubah bobot secara signifikan. 
+        Hal tersebut berakibat model menjadi tidak stabil. 
+
+        \item \textbf{Overweight Kata yang Jarang \textit{(Noise)}}
+
+        TF-IDF secara intuitif akan memberikan bobot tinggi pada kata yang sangat jarang muncul.
+        Hal tersebut dapat menjadi permasalahan karena sebuah kata bisa jadi adalah \textit{typo} ataupun \textit{noise}. 
+    \end{enumerate}
+\end{itemize}
+
+\section{Apa yang Harus Dilakukan dalam NLP?}
+
+\begin{enumerate}
+    \item \textbf{Exploratory Data Analysis}
+    Terdapat beberapa hal yang dapat dieksplor dari data dalam NLP, di antaranya: 
+    \begin{itemize}
+        \item Melihat hubungan panjang teks dengan label
+        \item Melihat \textbf{\textit{boxplot}} untuk mengecek \textit{outlier}; Dapat digunakan untuk melihat apakah fitur dan label memiliki keterkaitan
+        \item Mengamati \textit{\textbf{countplot}} untuk menghitung jumlah data pada masing-masing label. 
+        \item Menentukan \textbf{\textit{correlation}} (\textit{heatmap}) untuk mengetahui hubungan antarfitur. 
+    \end{itemize}
+    \item \textbf{Klasifikasi NLP}
+    Pada tahap ini diawali dengan langkah untuk berupaya menerjemahkan bahasa manusia (\textit{natural language}) menjadi bahasa yang dipahami oleh mesin. 
+    Berikutnya dilakukan prediksi menggunakan model tertentu. 
+    \begin{itemize}
+        \item Menggunakan \textbf{CountVectorizer}. 
+        Sebuah teknik dalam NLP untuk mengubah teks menjadi representasi numerik berdasarkan jumlah kemunculan kata (\textit{word count}). 
+        CV menerjemahkan kata atau teks denga cara menghitung berapa kali setiap kata muncul dalam setiap dokumen. 
+        Langkah kerjanya ialah: 
+        \begin{enumerate}
+            \item Mengumpulkan semua kata unik dari kumpulan dokumen
+            \item Menghitung berapa kali setiap kata muncul di masing-masing dokumen
+            \item Menghasilkan matriks angka yang disebut \textit{Bag-of-Words}
+        \end{enumerate}
+        \item Menambahkan \textit{pre-processing} lainnya, seperti TFIDF. 
+        \item \textbf{Melakukan \textit{Split Train} dan \textit{Test} Data.}
+        \item \textbf{Training Model}
+        \item \textbf{Melakukan prediksi}
+    \end{itemize}
+    \item \textbf{Merangkum dalam \textit{Pipeline}}
+    Dalam Python dapat menggunakan \textbf{\textit{Pipeline}} untuk menggabungkan atau merangkum beberapa tahapan pemrosesan data dan model ML ke dalam satu alur keja otomatis. 
+    Alih-alih menjalankan langkah satu persatu, bisa langsung digabung dalam 1 kali proses \textit{running code}. 
+
+    \begin{lstlisting}[language=Python]
+# Pipeline BoW + Logistic Regression
+pipeline_bow = Pipeline([('bow', CountVectorizer()),
+                        ('tfidf', TfIdfTransformer()), 
+                        ('model', LogisticRegression())])
+    \end{lstlisting}
+    
+\end{enumerate}
+
+\newpage
+
+\section{Source Code Python}
+
+    \begin{lstlisting}[language=Python]
+# Import libraries yang dibutuhkan
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import nltk
+%matplotlib inline
+
+# Load dataset
+yelp = pd.read_csv(r'C:\Users\Provicom\Downloads\Khamim\Karier\20-Natural-Language-Processing\yelp.csv')
+
+# Cek informasi dataset
+yelp.head()
+yelp.info()
+yelp.describe()
+
+# Menambahkan kolom 'text length' untuk menghitung panjang teks review
+yelp['text length'] = yelp['text'].apply(len)
+
+# Exploratory Data Analysis (EDA)
+FacetGrid = sns.FacetGrid(yelp, col='stars')
+FacetGrid.map(plt.hist, 'text length', bins=30)
+
+# Mengecek plot untuk cek outlier
+boxplot = sns.boxplot(x='stars', y='text length', data=yelp)
+
+# Mengecek jumlah data tiap label
+countplot = sns.countplot(x='stars', data=yelp, palette='viridis')
+
+# Melihat korelasi antarfitur 
+sns.heatmap(yelp.groupby('stars').mean(numeric_only=True).corr(), annot=True, cmap='coolwarm')
+
+# Preprocessing data
+X = yelp_class['text']
+y = yelp_class['stars']
+
+# Melakukan CountVectorizer untuk mengubah teks menjadi fitur numerik
+from sklearn.feature_extraction.text import CountVectorizer
+CV = CountVectorizer()
+X = CV.fit_transform(X)
+
+# Split data menjadi training dan testing
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+# Melatih model Naive Bayes
+from sklearn.naive_bayes import MultinomialNB
+nb = MultinomialNB()
+nb.fit(X_train, y_train)
+
+# Melakukan prediksi
+predictions = nb.predict(X_test)
+
+# Melakukan  evaluasi model
+from sklearn.metrics import classification_report, confusion_matrix
+
+print(confusion_matrix(y_test, prediksi))
+print(classification_report(y_test, prediksi))
+
+# Coba menggunakan TF-IDF Vectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+TFIDF = TfidfVectorizer()
+
+# Menggabungkan pemrosesan data dengan pipeline
+from sklearn.pipeline import Pipeline
+pipeline = Pipeline([
+    ('bow', CountVectorizer()),  # Bag of Words
+    ('tfidf', TfidfTransformer()),  # Term Frequency-Inverse Document Frequency
+    ('classifier', MultinomialNB()),  # Naive Bayes Classifier
+])
+
+# Melatih model dengan pipeline
+X = yelp_class['text']
+y = yelp_class['stars']
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.3,random_state=101)
+
+pipeline.fit(X_train, y_train)
+
+# Menghasilkan prediksi dengan pipeline
+predictions = pipeline.predict(X_test)
+
+# Melakukan evaluasi model dengan pipeline
+print(confusion_matrix(y_test,predictions))
+print(classification_report(y_test,predictions))
+    \end{lstlisting}
+
+\end{document} 
